@@ -1,0 +1,32 @@
+#app-container {
+  margin: 15% 10% 0% 10%;
+}
+
+.box-shad {
+  box-shadow: 0 10px 20px #777 inset, 0 0 200px #000 inset, 0 0 150px #000 inset,
+    0 0 100px #000 inset;
+}
+
+body {
+  background: #56c278;
+}
+
+.rounded_border {
+  border-radius: 10px;
+}
+
+#text-holder {
+  height: 20vh;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+#app-box {
+  width: 95%;
+}
+
+#circle {
+  font-size: 25px;
+}
