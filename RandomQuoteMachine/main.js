@@ -68,7 +68,7 @@ class App extends React.Component {
                         </div>
                         <div className="col-auto"></div>
                         <div className="col-5">
-                            <button className="border border-light rounded bg-light px-2 mt-5" style={color} onClick={this.handleNextQuote}>
+                            <button id="next-quote-button" className="border border-light rounded bg-light px-2 mt-5" style={color} onClick={this.handleNextQuote}>
                                 Next Quote
                                 <i className="fa fa-arrow-right mx-2"></i>
                             </button>
