@@ -43,7 +43,7 @@ class App extends React.Component {
 
                 <h4 id="random-quote-generator">Random Quote Generator</h4>
                 <div id="app-box">
-                    <i id="circle" className="fa fa-quote-left float-left" style={color}></i>
+                    <i id="icon" className="fa fa-quote-left float-left" style={color}></i>
 
                     <div id="text-author">
                         <p id="text" style={color}>{this.state.quote}</p>

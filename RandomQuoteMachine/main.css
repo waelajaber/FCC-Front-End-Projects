@@ -1,4 +1,4 @@
-/* Extra small devices (phones, 320px and down) */
+/* (320px and down) */
 @media only screen and (max-width: 320px) {
   #app-container {
     margin-top: 7%;
@@ -20,12 +20,15 @@
     box-shadow: 1px 1px 20px 2px rgba(0, 0, 0, 0.293);
   }
   #text-author {
+    display: flex;
+    flex-direction: column;
     margin-top: 5vh;
     margin-left: 3vw;
     margin-right: 3vw;
     margin-bottom: 5vh;
     height: 50vh;
     text-align: center;
+    justify-content: center;
   }
 
   #text {
@@ -38,7 +41,7 @@
 
   #icons-holder {
     display: grid;
-    grid-template-areas: "a b c";
+    grid-template-areas: "a b";
     align-self: center;
   }
 
@@ -48,19 +51,20 @@
   }
 
   #next-quote-button {
-    grid-area: c;
+    grid-area: b;
     padding: 5vw;
   }
 
   .fa {
-    padding: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
   }
 }
 
-/*small devices (landscape extra-small phones, 320px and down) */
-@media only screen and (min-width: 568px) {
+/* (321px and up) */
+@media only screen and (min-width: 321px) {
   #app-container {
-    margin-top: 4%;
+    margin-top: 1%;
   }
 
   #random-quote-generator {
@@ -70,32 +74,36 @@
   }
 
   #app-box {
-    display: grid;
-    grid-template-areas:
-      "a b"
-      "c c";
+    display: flex;
     flex-direction: column;
+    /* display: grid;
+    grid-template-areas:
+      "a"
+      "b"
+      "c"; */
     background: white;
     border-radius: 10px;
-    padding: 20px;
-    margin-left: 30px;
-    margin-right: 30px;
-    height: 75vh;
+    padding: 15px;
+    margin: 0px 30px 0px 30px;
+    height: 80vh;
+    box-shadow: 1px 1px 20px 2px rgba(0, 0, 0, 0.293);
   }
 
-  #circle {
-    padding: 0px;
+  /* #icon {
     grid-area: a;
-  }
+  } */
 
   #text-author {
-    margin-top: 0px;
+    /* grid-area: b; */
+    display: flex;
+    flex-direction: column;
+    margin-top: 0vh;
     margin-left: 3vw;
     margin-right: 3vw;
-    margin-bottom: 3vh;
-    height: 37vh;
+    margin-bottom: 2vh;
+    height: 50vh;
     text-align: center;
-    grid-area: b;
+    justify-content: center;
   }
 
   #text {
@@ -107,13 +115,10 @@
   }
 
   #icons-holder {
-    margin-top: 10px;
-    grid-area: c;
-    display: flex;
-  }
-
-  .fa {
-    padding: 10px;
+    /* grid-area: c; */
+    display: grid;
+    grid-template-areas: "a b";
+    text-align: center;
   }
 
   #social-media-icons {
@@ -123,26 +128,10 @@
   #next-quote-button {
     grid-area: b;
   }
-}
 
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-}
-
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-}
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-}
-
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-}
-
-#circle {
-  font-size: 25px;
+  .fa {
+    padding: 7px;
+  }
 }
 
 #next-quote-button,
