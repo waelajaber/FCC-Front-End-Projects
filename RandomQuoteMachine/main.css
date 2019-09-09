@@ -1,120 +1,21 @@
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-  #app-container {
-    margin: 5% 0% 0% 0%;
-  }
-  #text-holder {
-    height: 43vh;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    margin-top: 5rem;
-  }
-
-  #author-holder {
-    margin-top: 10vh;
-  }
-
-  #icons-holder {
-    display: grid;
-    grid-template-areas: "a b c";
-    margin-top: 2vh;
-    font-size: 15px;
-  }
-
-  #social-media-icons {
-    grid-area: a;
-  }
-
-  #next-quote-button {
-    grid-area: c;
-  }
-
-  #app-box {
-    width: 95%;
-  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-  #app-container {
-    margin: 2% 10% 0% 10%;
-  }
-  #text-holder {
-    height: 20vh;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-  }
-
-  #app-box {
-    width: 95%;
-  }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-  #app-container {
-    margin: 35% 20% 0% 20%;
-  }
-  #text-holder {
-    height: 20vh;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-  }
-
-  #app-box {
-    width: 95%;
-  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-  #app-container {
-    margin: 35% 20% 0% 20%;
-  }
-  #text-holder {
-    height: 20vh;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-  }
-
-  #app-box {
-    width: 95%;
-  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-  #app-container {
-    margin: 35% 20% 0% 20%;
-  }
-  #text-holder {
-    height: 20vh;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-  }
-
-  #app-box {
-    width: 95%;
-  }
-}
-
-.box-shad {
-  box-shadow: 0 10px 20px #777 inset, 0 0 200px #000 inset, 0 0 150px #000 inset,
-    0 0 100px #000 inset;
-}
-
-.rounded_border {
-  border-radius: 10px;
 }
 
 #circle {

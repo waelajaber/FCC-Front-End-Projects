@@ -41,36 +41,36 @@ class App extends React.Component {
         return (
             <React.Fragment>
 
-                <h4 className="text-center text-white mb-4">Random Quote Generator</h4>
-                <div id="app-box" className="container-fluid bg-light shadow-lg rounded_border text-center p-3">
+                <h4 id="random-quote-generator">Random Quote Generator</h4>
+                <div id="app-box">
                     <i id="circle" className="fa fa-circle float-left" style={color}></i>
 
-                    <div id="text-holder" className="row">
-                        <p className="mx-5">{this.state.quote}</p>
+                    <div id="text-holder">
+                        <p>{this.state.quote}</p>
                     </div>
 
-                    <div id="author-holder" className="text-center">
+                    <div id="author-holder">
                         <small className="font-italic">{this.state.author}</small>
                     </div>
 
-                    <div id="icons-holder" className="row">
+                    <div id="icons-holder">
                         <div id="social-media-icons">
 
-                            <button id="facebook-button" className="rounded bg-light = mx-1" style={color}>
+                            <button id="facebook-button" style={color}>
                                 <i className="fa fa-facebook-f"></i>
                             </button>
 
-                            <button id="twitter-button" className="rounded bg-light mx-1" style={color}>
+                            <button id="twitter-button" style={color}>
                                 <i className="fa fa-twitter"></i>
                             </button>
 
-                            <button id="twitter-button" className="rounded bg-light mx-1" style={color}>
+                            <button id="twitter-button" style={color}>
                                 <i className="fa fa-instagram"></i>
                             </button>
 
                         </div>
 
-                        <button id="next-quote-button" className="rounded bg-light p-0" style={color} onClick={this.handleNextQuote}>
+                        <button id="next-quote-button" style={color} onClick={this.handleNextQuote}>
                             Next Quote
                                 <i className="fa fa-arrow-right mx-2"></i>
                         </button>
