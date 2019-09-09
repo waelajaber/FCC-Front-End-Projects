@@ -1,5 +1,47 @@
 /* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 320px) {
+  #app-container {
+    margin-top: 7%;
+  }
+
+  #random-quote-generator {
+    text-align: center;
+    margin-bottom: 5%;
+    color: white;
+  }
+  #app-box {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    height: 80vh;
+  }
+  #text-author {
+    margin-top: 5vh;
+    margin-left: 3vw;
+    margin-right: 3vw;
+    margin-bottom: 5vh;
+    height: 50vh;
+    text-align: center;
+  }
+
+  #icons-holder {
+    display: grid;
+    grid-template-areas: "a b c";
+    align-self: center;
+  }
+
+  #social-media-icons {
+    grid-area: a;
+    padding: 5vw;
+  }
+
+  #next-quote-button {
+    grid-area: c;
+    padding: 5vw;
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
