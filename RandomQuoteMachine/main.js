@@ -5,7 +5,7 @@ class App extends React.Component {
 
         this.state = {
             data: null,
-            quote: "Yeah, well, you know, that's just, like, your opinion, man. ...",
+            quote: "",
             author: "The Dude",
         }
 
@@ -41,40 +41,42 @@ class App extends React.Component {
         return (
             <React.Fragment>
 
-                <h3 className="text-center text-white mb-4">Random Quote Generator</h3>
+                <h4 className="text-center text-white mb-4">Random Quote Generator</h4>
                 <div id="app-box" className="container-fluid bg-light shadow-lg rounded_border text-center p-3">
                     <i id="circle" className="fa fa-circle float-left" style={color}></i>
 
-                    <div id="text-holder" className="row mt-5">
+                    <div id="text-holder" className="row">
                         <div className="col">
-                            <p className="mx-5">{this.state.quote}</p>
+                            <p className="mx-5">{/*this.state.quote*/}Quis ex velit dolor dolor laboris ea incididunt id deserunt minim qui proident . Ea ut dolor nostrud labore culpa labore deserunt quis culpa duis quis.qui proident adipisicing. Eu adipisicing quis non ut. Ea ut dolor nostrud labore culpa labore deserunt quis culpa duis quis</p>
                         </div>
                     </div>
 
-                    <div className="row mt-2 mx-5">
+                    <div id="author-holder" className="row">
                         <div className="col">
                             <small className="font-italic">{this.state.author}</small>
                         </div>
                     </div>
 
-                    <div className="row">
-                        <div className="col-5">
-                            <button className="border border-light rounded bg-light mt-5 mx-3" style={color}>
+                    <div id="icons-holder" className="row">
+                        <div id="social-media-icons">
+
+                            <button id="facebook-button" className="border border-light rounded bg-light = mx-1" style={color}>
                                 <i className="fa fa-facebook-f"></i>
                             </button>
-                            <button className="border border-light rounded bg-light mt-5 mx-3" style={color}>
+
+                            <button id="twitter-button" className="border border-light rounded bg-light mx-1" style={color}>
                                 <i className="fa fa-twitter"></i>
                             </button>
+
                         </div>
-                        <div className="col-auto"></div>
-                        <div className="col-5">
-                            <button id="next-quote-button" className="border border-light rounded bg-light px-2 mt-5" style={color} onClick={this.handleNextQuote}>
-                                Next Quote
+
+                        <button id="next-quote-button" className="border border-light rounded bg-light px-2" style={color} onClick={this.handleNextQuote}>
+                            Next Quote
                                 <i className="fa fa-arrow-right mx-2"></i>
-                            </button>
-                        </div>
+                        </button>
+
                     </div>
-                    <div id='test'></div>
+
                 </div>
 
             </React.Fragment>
