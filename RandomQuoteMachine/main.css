@@ -1,10 +1,10 @@
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   #app-container {
-    margin: 5% 0% 5% 0%;
+    margin: 5% 0% 0% 0%;
   }
   #text-holder {
-    height: 40vh;
+    height: 43vh;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -17,13 +17,18 @@
   }
 
   #icons-holder {
-    display: inline-grid;
-    justify-content: center;
-    align-content: center;
-    grid-template-columns: 25vw 40vw 25vw;
-    padding: 10px;
+    display: grid;
+    grid-template-areas: "a b c";
     margin-top: 2vh;
     font-size: 15px;
+  }
+
+  #social-media-icons {
+    grid-area: a;
+  }
+
+  #next-quote-button {
+    grid-area: c;
   }
 
   #app-box {

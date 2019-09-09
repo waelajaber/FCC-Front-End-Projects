@@ -5,7 +5,7 @@ class App extends React.Component {
 
         this.state = {
             data: null,
-            quote: "",
+            quote: "This will not stand, ya know, this aggression will not stand, man. ...",
             author: "The Dude",
         }
 
@@ -46,31 +46,31 @@ class App extends React.Component {
                     <i id="circle" className="fa fa-circle float-left" style={color}></i>
 
                     <div id="text-holder" className="row">
-                        <div className="col">
-                            <p className="mx-5">{/*this.state.quote*/}Quis ex velit dolor dolor laboris ea incididunt id deserunt minim qui proident . Ea ut dolor nostrud labore culpa labore deserunt quis culpa duis quis.qui proident adipisicing. Eu adipisicing quis non ut. Ea ut dolor nostrud labore culpa labore deserunt quis culpa duis quis</p>
-                        </div>
+                        <p className="mx-5">{this.state.quote}</p>
                     </div>
 
-                    <div id="author-holder" className="row">
-                        <div className="col">
-                            <small className="font-italic">{this.state.author}</small>
-                        </div>
+                    <div id="author-holder" className="text-center">
+                        <small className="font-italic">{this.state.author}</small>
                     </div>
 
                     <div id="icons-holder" className="row">
                         <div id="social-media-icons">
 
-                            <button id="facebook-button" className="border border-light rounded bg-light = mx-1" style={color}>
+                            <button id="facebook-button" className="rounded bg-light = mx-1" style={color}>
                                 <i className="fa fa-facebook-f"></i>
                             </button>
 
-                            <button id="twitter-button" className="border border-light rounded bg-light mx-1" style={color}>
+                            <button id="twitter-button" className="rounded bg-light mx-1" style={color}>
                                 <i className="fa fa-twitter"></i>
+                            </button>
+
+                            <button id="twitter-button" className="rounded bg-light mx-1" style={color}>
+                                <i className="fa fa-instagram"></i>
                             </button>
 
                         </div>
 
-                        <button id="next-quote-button" className="border border-light rounded bg-light px-2" style={color} onClick={this.handleNextQuote}>
+                        <button id="next-quote-button" className="rounded bg-light p-0" style={color} onClick={this.handleNextQuote}>
                             Next Quote
                                 <i className="fa fa-arrow-right mx-2"></i>
                         </button>
