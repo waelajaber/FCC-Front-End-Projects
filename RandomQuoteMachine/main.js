@@ -28,7 +28,7 @@ class App extends React.Component {
     }
 
     handleColor() {
-        const colors = ['#D98880', '#C39BD3', '#7FB3D5', '#76D7C4', '#7DCEA0', '#F7DC6F', '#F0B27A', '#99A3A4'];
+        const colors = ['#D98880', '#C39BD3', '#7FB3D5', '#76D7C4', '#7DCEA0', '#F0B27A', '#99A3A4'];
         let randomIdx = Math.round(Math.random() * (colors.length - 1));
         const color = colors[randomIdx];
         return color
@@ -46,13 +46,13 @@ class App extends React.Component {
                     <i id="circle" className="fa fa-quote-left float-left" style={color}></i>
 
                     <div id="text-author">
-                        <p id="text">{this.state.quote}</p>
-                        <small id="author">{this.state.author}</small>
+                        <p id="text" style={color}>{this.state.quote}</p>
+                        <small id="author" style={color}>{this.state.author}</small>
                     </div>
+
 
                     <div id="icons-holder">
                         <div id="social-media-icons">
-
                             <button id="facebook-button" style={color}>
                                 <i className="fa fa-facebook-f"></i>
                             </button>
@@ -64,12 +64,11 @@ class App extends React.Component {
                             <button id="twitter-button" style={color}>
                                 <i className="fa fa-instagram"></i>
                             </button>
-
                         </div>
 
                         <button id="next-quote-button" style={color} onClick={this.handleNextQuote}>
                             Next Quote
-                                <i className="fa fa-arrow-right mx-2"></i>
+                                <i className="fa fa-arrow-right"></i>
                         </button>
 
                     </div>

@@ -1,4 +1,4 @@
-/* Extra small devices (phones, 600px and down) */
+/* Extra small devices (phones, 320px and down) */
 @media only screen and (max-width: 320px) {
   #app-container {
     margin-top: 7%;
@@ -17,6 +17,7 @@
     padding: 20px;
     margin: 10px;
     height: 80vh;
+    box-shadow: 1px 1px 20px 2px rgba(0, 0, 0, 0.293);
   }
   #text-author {
     margin-top: 5vh;
@@ -25,6 +26,14 @@
     margin-bottom: 5vh;
     height: 50vh;
     text-align: center;
+  }
+
+  #text {
+    font-weight: bold;
+  }
+
+  #author {
+    font-style: italic;
   }
 
   #icons-holder {
@@ -41,6 +50,78 @@
   #next-quote-button {
     grid-area: c;
     padding: 5vw;
+  }
+
+  .fa {
+    padding: 3px;
+  }
+}
+
+/*small devices (landscape extra-small phones, 320px and down) */
+@media only screen and (min-width: 568px) {
+  #app-container {
+    margin-top: 4%;
+  }
+
+  #random-quote-generator {
+    text-align: center;
+    margin-bottom: 2%;
+    color: white;
+  }
+
+  #app-box {
+    display: grid;
+    grid-template-areas:
+      "a b"
+      "c c";
+    flex-direction: column;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    height: 75vh;
+  }
+
+  #circle {
+    padding: 0px;
+    grid-area: a;
+  }
+
+  #text-author {
+    margin-top: 0px;
+    margin-left: 3vw;
+    margin-right: 3vw;
+    margin-bottom: 3vh;
+    height: 37vh;
+    text-align: center;
+    grid-area: b;
+  }
+
+  #text {
+    font-weight: bold;
+  }
+
+  #author {
+    font-style: italic;
+  }
+
+  #icons-holder {
+    margin-top: 10px;
+    grid-area: c;
+    display: flex;
+  }
+
+  .fa {
+    padding: 10px;
+  }
+
+  #social-media-icons {
+    grid-area: a;
+  }
+
+  #next-quote-button {
+    grid-area: b;
   }
 }
 
