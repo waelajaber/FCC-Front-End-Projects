@@ -40,17 +40,13 @@ class App extends React.Component {
         document.body.style = `background: ${mainColor}; transition: background 1s;`
         return (
             <React.Fragment>
-
                 <h4 id="random-quote-generator">Random Quote Generator</h4>
                 <div id="app-box">
                     <i id="icon" className="fa fa-quote-left float-left" style={color}></i>
-
                     <div id="text-author">
                         <p id="text" style={color}>{this.state.quote}</p>
                         <small id="author" style={color}>{this.state.author}</small>
                     </div>
-
-
                     <div id="icons-holder">
                         <div id="social-media-icons">
                             <button id="facebook-button" style={color}>
@@ -65,16 +61,12 @@ class App extends React.Component {
                                 <i className="fa fa-instagram"></i>
                             </button>
                         </div>
-
                         <button id="next-quote-button" style={color} onClick={this.handleNextQuote}>
                             Next Quote
                                 <i className="fa fa-arrow-right"></i>
                         </button>
-
                     </div>
-
                 </div>
-
             </React.Fragment>
         )
     }

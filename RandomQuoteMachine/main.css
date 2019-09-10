@@ -325,7 +325,7 @@
 /* iPad Landscape (1024px and up) */
 @media only screen and (min-width: 1024px) {
   #app-container {
-    margin-top: 25%;
+    margin-top: 15%;
   }
 
   #random-quote-generator {
@@ -348,12 +348,12 @@
   #text-author {
     display: flex;
     flex-direction: column;
-    margin-top: 5vh;
+    margin-top: 2vh;
     margin-left: 5vw;
     margin-right: 5vw;
-    margin-bottom: 2vh;
     text-align: center;
     justify-content: center;
+    height: 50%;
   }
 
   #text {
@@ -368,6 +368,8 @@
     display: grid;
     grid-template-areas: "x y";
     text-align: center;
+    width: auto;
+    height: 10%;
   }
 
   #social-media-icons {
@@ -379,7 +381,7 @@
   }
 
   .fa {
-    padding: 0px;
+    padding: 5px;
   }
 }
 
@@ -404,19 +406,16 @@
     background: white;
     border-radius: 10px;
     padding: 10px;
-    /* margin: 0px 100px 0px 100px; */
     height: 50vh;
     width: 40vw;
     box-shadow: 1px 1px 20px 2px rgba(0, 0, 0, 0.293);
   }
 
   #text-author {
-    /* display: flex;
-    flex-direction: column; */
     margin-top: 0vh;
     margin-left: 5vw;
     margin-right: 5vw;
-    margin-bottom: 2vh;
+    margin-bottom: 0vh;
     height: 50vh;
     text-align: center;
     justify-content: center;
@@ -435,22 +434,20 @@
 
   #icons-holder {
     display: grid;
-    width: 50vw;
-    grid-template-areas: "a b";
-    text-align: center;
+    grid-template-areas: "x y z";
+    padding-bottom: 40px;
   }
 
   #social-media-icons {
-    grid-area: a;
+    padding: 10px;
+    grid-area: x;
+    padding-right: 100px;
   }
 
   #next-quote-button {
-    grid-area: b;
-  }
-
-  .fa {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 10px;
+    grid-area: z;
+    padding-left: 100px;
   }
 }
 
