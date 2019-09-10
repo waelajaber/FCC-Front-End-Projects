@@ -6,9 +6,10 @@
 
   #random-quote-generator {
     text-align: center;
-    margin-bottom: 5%;
+    margin-bottom: 7%;
     color: white;
   }
+
   #app-box {
     display: flex;
     flex-direction: column;
@@ -16,9 +17,10 @@
     border-radius: 10px;
     padding: 20px;
     margin: 10px;
-    height: 80vh;
+    height: 75vh;
     box-shadow: 1px 1px 20px 2px rgba(0, 0, 0, 0.293);
   }
+
   #text-author {
     display: flex;
     flex-direction: column;
@@ -321,14 +323,14 @@
 }
 
 /* iPad Landscape (1024px and up) */
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1024px) {
   #app-container {
-    margin-top: 10%;
+    margin-top: 25%;
   }
 
   #random-quote-generator {
     text-align: center;
-    margin-bottom: 10%;
+    margin-bottom: 5%;
     color: white;
   }
 
@@ -338,19 +340,18 @@
     background: white;
     border-radius: 10px;
     padding: 15px;
-    margin: 0px 100px 0px 100px;
-    height: 50vh;
+    margin: 0px 200px 0px 200px;
+    height: 40vh;
     box-shadow: 1px 1px 20px 2px rgba(0, 0, 0, 0.293);
   }
 
   #text-author {
     display: flex;
     flex-direction: column;
-    margin-top: 0vh;
+    margin-top: 5vh;
     margin-left: 5vw;
     margin-right: 5vw;
     margin-bottom: 2vh;
-    height: 50vh;
     text-align: center;
     justify-content: center;
   }
@@ -365,25 +366,25 @@
 
   #icons-holder {
     display: grid;
-    grid-template-areas: "a b";
+    grid-template-areas: "x y";
     text-align: center;
   }
 
   #social-media-icons {
-    grid-area: a;
+    grid-area: x;
   }
 
   #next-quote-button {
-    grid-area: b;
+    grid-area: y;
   }
 
   .fa {
-    padding: 7px;
+    padding: 0px;
   }
 }
 
 /* Desktop (1200px and up) */
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 1200px) {
   #app-container {
     display: flex;
     flex-direction: column;
