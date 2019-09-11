@@ -1,0 +1,31 @@
+#app-container {
+  margin-top: 5%;
+}
+
+#editor {
+  overflow-y: scroll;
+  resize: vertical;
+  /* overflow: auto; */
+}
+
+#preview {
+  height: 80vh;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2c2a2a00;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(53, 53, 53);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
