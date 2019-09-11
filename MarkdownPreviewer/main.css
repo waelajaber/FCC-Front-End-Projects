@@ -6,6 +6,7 @@
   overflow-y: scroll;
   resize: vertical;
   /* overflow: auto; */
+  height: 40vh;
 }
 
 #preview {

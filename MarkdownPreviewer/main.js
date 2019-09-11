@@ -37,7 +37,11 @@ class App extends React.Component {
                                 </div>
 
                                 <div className="row ">
-                                    <textarea id="editor" value={this.state.text.length === 0 ? this.state.defaultText : this.state.text} onChange={this.handleMarkdown} className="w-100 shadow border border-dark rounded rounded-lg mt-2 p-2" />
+                                    <textarea
+                                        id="editor"
+                                        value={this.state.text.length === 0 ? this.state.defaultText : this.state.text}
+                                        onChange={this.handleMarkdown}
+                                        className="w-100 shadow border border-dark rounded rounded-lg mt-2 p-2" />
                                 </div>
 
                             </div>
@@ -55,7 +59,11 @@ class App extends React.Component {
                                     </div>
                                 </div>
 
-                                <div id="preview" className="row shadow border border-dark rounded mt-2 p-2">{this.state.text.length === 0 ? marked(this.state.defaultText) : marked(this.state.text)}</div>
+                                <div
+                                    id="preview"
+                                    className="row shadow border border-dark rounded mt-2 p-2">
+                                    {this.state.text.length === 0 ? marked(this.state.defaultText) : marked(this.state.text)}
+                                </div>
 
                             </div>
                         </div>
