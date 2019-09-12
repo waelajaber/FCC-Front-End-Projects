@@ -16,16 +16,26 @@
 </head>
 
 <body>
-    <h2 class="text-center bg-dark rounded container my-5 text-white p-2 h-100 justify-content-center">Markdown
-        Previewer</h2>
-    <small class="text-center row mx-5">Markdown is a text-to-HTML conversion tool for web writers. Markdown
-        allows you
-        to write
-        using an
-        easy-to-read,
-        easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML).</small>
+    <div class="container mt-3">
+        <div class="row">
+            <h1 class="col text-center">Markdown Previewer</h1>
+        </div>
+        <div class="row mt-3">
+            <small class="col text-center">Markdown is a text-to-HTML conversion tool for web writers. Markdown
+                allows you
+                to write
+                using an
+                easy-to-read,
+                easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML)
+            </small>
+        </div>
+    </div>
     <div id="app-container"></div>
 
+    <script src='https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js'></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"
+        integrity="sha256-LSUpTY0kkXGKvcBC9kbmgibmx3NVVgJvAEfTZbs51mU=" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.7.0/marked.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
