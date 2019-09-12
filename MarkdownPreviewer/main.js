@@ -119,7 +119,7 @@ class App extends React.Component {
                                     </div>
                                 </div>
 
-                                <div className="w-100 shadow border border-dark rounded rounded-lg mt-2 p-2" id='preview' dangerouslySetInnerHTML={{ __html: marked(this.state.text, { renderer: renderer }) }} />
+                                <div className="row shadow border border-dark rounded rounded-lg mt-2 p-2" id='preview' dangerouslySetInnerHTML={{ __html: marked(this.state.text, { renderer: renderer }) }} />
 
                             </div>
                         </div>
