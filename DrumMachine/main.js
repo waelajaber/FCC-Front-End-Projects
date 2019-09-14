@@ -7,7 +7,7 @@ class App extends React.Component {
                     <div id="display">
                         <div className="Row">
                             <button id="sound1" className="drum-pad">
-                                <audio src="" className="clip" id=""></audio>
+                                <audio src='audio\CYCdh_K1close_ClHat-05.wav' className="clip" id=""></audio>
                                 Q
                             </button>
                             <button id="sound2" className="drum-pad">
