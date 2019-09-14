@@ -1,5 +1,3 @@
-
-
 class App extends React.Component {
 
     render() {
@@ -74,18 +72,23 @@ ReactDOM.render(<App />, document.getElementById('app-container'));
 // $(window).resize();
 
 const alwaysCenter = () => {
-    let container = document.getElementById('app-container');
+    let container = document.querySelector('#app-container');
     let width = container.offsetWidth;
     let height = container.offsetHeight;
     container.style.position = 'absolute';
-    container.style.left = ((window.innerWidth - width) / 2) + 'px';
+    container.style.marginLeft = ((window.innerWidth - width) / 2) + 'px';
     // container.style.right = ((window.innerWidth - width) / 2) + 'px';
-    container.style.top = ((window.outerHeight - height) / 2) + 'px';
+    container.style.marginTop = ((window.innerHeight - height) / 2) + 'px';
     // container.style.marginBottom = ((window.outerHeight - height) / 2) + 'px';
 
 }
 
-// window.onresize = alwaysCenter();
-
-
-window.onresize = () => { alwaysCenter() }
+document.addEventListener('DOMContentLoaded', () => { alwaysCenter() })
+document.onload = () => { alwaysCenter() };
+window.onoffline = () => { alwaysCenter() };
+document.onresize = () => { alwaysCenter() };
+window.onresize = () => { alwaysCenter() };
+// window.onresize = () => {
+//     document.getElementById('app-container').style.setProperty('top', '1000px');
+//     document.getElementById('app-container').style.setProperty('left', '1000px')
+// };
