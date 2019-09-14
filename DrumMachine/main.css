@@ -11,10 +11,11 @@
   border: solid 1px black;
   height: 300px;
   width: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   text-align: center;
+  box-shadow: inset rgba(128, 128, 128, 0.435) 0px 1px 10px 2px;
+  border-color: rgba(128, 128, 128, 0.415);
+  background: rgb(41, 41, 41);
+  padding: 5px;
 }
 
 .drum-pad {
