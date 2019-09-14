@@ -7,43 +7,43 @@ class App extends React.Component {
                     <div id="display">
                         <div className="Row">
                             <button id="sound1" className="drum-pad">
-                                <audio src='audio\CYCdh_K1close_ClHat-05.wav' className="clip" id=""></audio>
+                                <audio src='./audio/CYCdh_K1close_ClHat-05.wav' type='audio/wav' className="clip" id="Q"></audio>
                                 Q
                             </button>
                             <button id="sound2" className="drum-pad">
-                                <audio src="" className="clip" id=""></audio>
+                                <audio src="\audio\CYCdh_K1close_Flam-05.wav" type='audio/wav' className="clip" id="W"></audio>
                                 W
                             </button>
                             <button id="sound3" className="drum-pad">
-                                <audio src="" className="clip" id=""></audio>
+                                <audio src="" className="clip" id="E"></audio>
                                 E
                             </button>
                         </div>
                         <div className="Row">
                             <button id="sound4" className="drum-pad">
-                                <audio src="" className="clip" id=""></audio>
+                                <audio src="" className="clip" id="A"></audio>
                                 A
                             </button>
                             <button id="sound5" className="drum-pad">
-                                <audio src="" className="clip" id=""></audio>
+                                <audio src="" className="clip" id="S"></audio>
                                 S
                             </button>
                             <button id="sound6" className="drum-pad">
-                                <audio src="" className="clip" id=""></audio>
+                                <audio src="" className="clip" id="D"></audio>
                                 D
                             </button>
                         </div>
                         <div className="Row">
                             <button id="sound7" className="drum-pad">
-                                <audio src="" className="clip" id=""></audio>
+                                <audio src="" className="clip" id="Z"></audio>
                                 Z
                             </button>
                             <button id="sound8" className="drum-pad">
-                                <audio src="" className="clip" id=""></audio>
+                                <audio src="" className="clip" id="X"></audio>
                                 X
                             </button>
                             <button id="sound9" className="drum-pad">
-                                <audio src="" className="clip" id=""></audio>
+                                <audio src="" className="clip" id="C"></audio>
                                 C
                             </button>
                         </div>
