@@ -1,0 +1,22 @@
+/* #app-container {
+  display: flex;
+} */
+
+#display {
+  border: solid black;
+}
+
+.drum-pad {
+  min-height: 70px;
+  min-width: 70px;
+  max-height: 100px;
+  max-width: 100px;
+  border: solid black;
+  margin: 10px;
+  border-radius: 5px;
+  border-color: rgba(128, 128, 128, 0.415);
+  border-width: 1px;
+  background: transparent;
+  box-shadow: inset rgba(128, 128, 128, 0.435) 0px 1px 20px 5px;
+  color: rgb(177, 177, 177);
+}
