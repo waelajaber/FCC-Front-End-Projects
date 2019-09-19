@@ -1,3 +1,13 @@
+@font-face {
+  src: url("./fonts/Calculus\ Regular.ttf");
+  font-family: "calculator";
+}
+
+@font-face {
+  src: url("./fonts/OPTICalculator.otf");
+  font-family: "calculator2";
+}
+
 #app-container {
   position: fixed;
   top: 50%;
@@ -28,7 +38,7 @@
   width: 340px;
   margin: 15px;
   box-shadow: inset rgba(0, 0, 0, 0.469) 1px 2px 10px 1px;
-  /* font-family: calculator; */
+  font-family: calculator2;
 }
 
 #pad {

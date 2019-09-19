@@ -12,7 +12,7 @@ class App extends React.Component {
             <React.Fragment>
                 <div id="calculator-container">
                     <div id="display">
-                        hello
+                        hello motherfuckers
                     </div>
                     <div id="pad">
                         <div id="number-container">
