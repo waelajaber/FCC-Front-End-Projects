@@ -47,20 +47,6 @@
   margin-top: 70px;
 }
 
-#brand {
-  background-color: transparent;
-  border-radius: 5px;
-  margin: 5px;
-  padding: 10px;
-  height: 60px;
-  width: 120px;
-
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .numbers {
   display: flex;
   justify-content: center;

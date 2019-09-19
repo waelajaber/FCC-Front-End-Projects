@@ -16,9 +16,7 @@ class App extends React.Component {
                     </div>
 
                     <div id="pad">
-                        <div id="brand">
-                            JS Calculator
-                        </div>
+
                         <div id="number-container">
                             <button className="numbers" id="seven">7</button>
                             <button className="numbers" id="eight">8</button>
