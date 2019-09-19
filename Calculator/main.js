@@ -2,39 +2,72 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            stack: '',
+            literalStack: '0',
         };
 
         this.handleInput = this.handleInput.bind(this);
         this.handleClear = this.handleClear.bind(this);
         this.handleDel = this.handleDel.bind(this);
+        this.handleEval = this.handleEval.bind(this);
     }
+
+
 
     handleInput(e) {
         this.setState({
-            stack: this.state.stack.concat(e.target.innerHTML),
+            literalStack: this.state.literalStack.concat(e.target.innerHTML),
         })
     }
 
     handleClear() {
-        this.setState({ stack: '' })
+        this.setState({ literalStack: '' })
     }
 
     handleDel() {
-        let current = this.state.stack;
+        let current = this.state.literalStack;
         let newStack = current.slice(0, current.length - 1);
         this.setState({
-            stack: newStack
+            literalStack: newStack
         })
     }
 
+    handleKeyPress(e) {
+        document.onkeypress = (e) => {
+            let pressedKey = e.key;
+            if (pressedKey.match(/\d/)) {
+                this.setState({
+                    literalStack: this.state.literalStack.concat(pressedKey),
+                })
+            }
+        }
+    }
+
+    handleEval() {
+        let literalStack = this.state.literalStack;
+        const add = (a, b) => { return a + b };
+        const sub = (a, b) => { return a - b };
+        const mul = (a, b) => { return a * b };
+        const div = (a, b) => { return a / b };
+        const operations = {
+            '+': add,
+            '-': sub,
+            'X': mul,
+            '/': div
+        };
+        let numberRegEx = /\d\.\d|\d/g;
+        let opsRegEx = /\D/g;
+        console.log(literalStack)
+        // let numbers = literalStack.match(numberRegEx);
+        // let ops = literalStack.match(opsRegEx).filter(i => i != '.');
+    }
+
     render() {
-        console.log(this.state.stack)
+        this.handleKeyPress()
         return (
             <React.Fragment>
                 <div id="calculator-container">
                     <div id="display">
-                        {this.state.stack}
+                        {this.state.literalStack}
                     </div>
                     <div id="pad">
                         <div id="number-container">
@@ -54,7 +87,7 @@ class App extends React.Component {
                         <div id="ops">
                             <button onClick={this.handleDel} className="numbers" id="clear">Del</button>
                             <button onClick={this.handleClear} className="numbers" id="clear">AC</button>
-                            <button onClick={this.handleInput} className="numbers" id="multiply">x</button>
+                            <button onClick={this.handleInput} className="numbers" id="multiply">X</button>
                             <button onClick={this.handleInput} className="numbers" id="divide">/</button>
                             <button onClick={this.handleInput} className="numbers" id="add">+</button>
                             <button onClick={this.handleInput} className="numbers" id="subtract">-</button>
