@@ -2,41 +2,28 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            rawInput: '',
             output: '',
         };
-
         this.handleInput = this.handleInput.bind(this);
         this.handleClear = this.handleClear.bind(this);
         this.handleDel = this.handleDel.bind(this);
         this.handleEval = this.handleEval.bind(this);
     }
-
-    // componentDidMount() {
-    //     window.addEventListener =
-    //         () => { this.setState({ output: '' }) }
-    // }
-
     handleInput(e) {
-        this.setState({
-            output: this.state.output.concat(e.target.innerHTML),
-        })
-    }
-
-    handleKeyPress(e) {
-        document.onkeypress = (e) => {
-            let pressedKey = e.key;
-            if (pressedKey.match(/\d/)) {
-                this.setState({
-                    output: this.state.output.concat(pressedKey),
-                })
-            }
+        this.state.rawInput += e.target.innerHTML;
+        if (this.state.rawInput.match(/\.{2,}/g)) {
+            this.setState({ output: this.state.rawInput.replace(/\.{2,}/g, '.') })
+        } else {
+            this.setState({ output: this.state.rawInput })
         }
     }
-
     handleClear() {
-        this.setState({ output: '' })
+        this.setState({
+            rawInput: '',
+            output: ''
+        })
     }
-
     handleDel() {
         let current = this.state.output;
         let newStack = current.slice(0, current.length - 1);
@@ -44,22 +31,18 @@ class App extends React.Component {
             output: newStack
         })
     }
-
-
-
     handleEval() {
-        let output = this.state.output;
-        let result = math.evaluate(output.replace('X', '*'))
+        let result = math.evaluate(this.state.output.replace('X', '*'))
         this.setState({ output: result.toString() })
     }
 
     render() {
-        this.handleKeyPress()
-        console.log(this.state.output)
+        console.log('rawInput: ', this.state.rawInput);
+        console.log('output: ', this.state.output)
         return (
             <React.Fragment>
                 <div id="calculator-container">
-                    <div id="display">
+                    <div id="display" onLoad={this.handleRules}>
                         {this.state.output.length === 0 ? 0 : this.state.output}
                     </div>
                     <div id="pad">
