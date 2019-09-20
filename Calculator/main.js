@@ -2,7 +2,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            literalStack: '0',
+            output: '',
         };
 
         this.handleInput = this.handleInput.bind(this);
@@ -11,23 +11,14 @@ class App extends React.Component {
         this.handleEval = this.handleEval.bind(this);
     }
 
-
+    // componentDidMount() {
+    //     window.addEventListener =
+    //         () => { this.setState({ output: '' }) }
+    // }
 
     handleInput(e) {
         this.setState({
-            literalStack: this.state.literalStack.concat(e.target.innerHTML),
-        })
-    }
-
-    handleClear() {
-        this.setState({ literalStack: '' })
-    }
-
-    handleDel() {
-        let current = this.state.literalStack;
-        let newStack = current.slice(0, current.length - 1);
-        this.setState({
-            literalStack: newStack
+            output: this.state.output.concat(e.target.innerHTML),
         })
     }
 
@@ -36,38 +27,40 @@ class App extends React.Component {
             let pressedKey = e.key;
             if (pressedKey.match(/\d/)) {
                 this.setState({
-                    literalStack: this.state.literalStack.concat(pressedKey),
+                    output: this.state.output.concat(pressedKey),
                 })
             }
         }
     }
 
+    handleClear() {
+        this.setState({ output: '' })
+    }
+
+    handleDel() {
+        let current = this.state.output;
+        let newStack = current.slice(0, current.length - 1);
+        this.setState({
+            output: newStack
+        })
+    }
+
+
+
     handleEval() {
-        let literalStack = this.state.literalStack;
-        const add = (a, b) => { return a + b };
-        const sub = (a, b) => { return a - b };
-        const mul = (a, b) => { return a * b };
-        const div = (a, b) => { return a / b };
-        const operations = {
-            '+': add,
-            '-': sub,
-            'X': mul,
-            '/': div
-        };
-        let numberRegEx = /\d\.\d|\d/g;
-        let opsRegEx = /\D/g;
-        console.log(literalStack)
-        // let numbers = literalStack.match(numberRegEx);
-        // let ops = literalStack.match(opsRegEx).filter(i => i != '.');
+        let output = this.state.output;
+        let result = math.evaluate(output.replace('X', '*'))
+        this.setState({ output: result.toString() })
     }
 
     render() {
         this.handleKeyPress()
+        console.log(this.state.output)
         return (
             <React.Fragment>
                 <div id="calculator-container">
                     <div id="display">
-                        {this.state.literalStack}
+                        {this.state.output.length === 0 ? 0 : this.state.output}
                     </div>
                     <div id="pad">
                         <div id="number-container">
@@ -82,7 +75,7 @@ class App extends React.Component {
                             <button onClick={this.handleInput} className="numbers" id="three">3</button>
                             <button onClick={this.handleInput} className="numbers" id="zero">0</button>
                             <button onClick={this.handleInput} className="numbers" id="decimal">.</button>
-                            <button className="numbers" id="equals">=</button>
+                            <button onClick={this.handleEval} className="numbers" id="equals">=</button>
                         </div>
                         <div id="ops">
                             <button onClick={this.handleDel} className="numbers" id="clear">Del</button>
