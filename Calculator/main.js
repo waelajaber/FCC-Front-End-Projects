@@ -12,12 +12,19 @@ class App extends React.Component {
     }
     handleInput(e) {
         this.state.rawInput += e.target.innerHTML;
+        // handle multiple decimal point inputs (0..1) and turn them into single decimal points (0.1).
         if (this.state.rawInput.match(/\.{2,}/g)) {
             this.setState({ output: this.state.rawInput.replace(/\.{2,}/g, '.') })
-        } else {
+        }
+        else if (this.state.rawInput.match(/(?<=\d+\.\d+)\.+/g)) {
+            this.setState({ output: this.state.rawInput.replace(/(?<=\d+\.\d+)\.+/g, '') })
+        }
+        else {
             this.setState({ output: this.state.rawInput })
         }
     }
+    //5X1+5+921233+5X6-2/4
+    //40005.010.5
     handleClear() {
         this.setState({
             rawInput: '',
@@ -28,11 +35,12 @@ class App extends React.Component {
         let current = this.state.output;
         let newStack = current.slice(0, current.length - 1);
         this.setState({
+            rawInput: newStack,
             output: newStack
         })
     }
     handleEval() {
-        let result = math.evaluate(this.state.output.replace('X', '*'))
+        let result = math.evaluate(this.state.output.replace(/\X/g, '*'))
         this.setState({ output: result.toString() })
     }
 
