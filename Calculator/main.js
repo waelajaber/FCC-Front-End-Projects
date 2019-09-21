@@ -12,23 +12,34 @@ class App extends React.Component {
     }
     handleInput(e) {
         this.state.rawInput += e.target.innerHTML;
-        // handle multiple decimal point inputs (0..1) and turn them into single decimal points (0.1).
-        if (this.state.rawInput.match(/\.{2,}/g)) {
-            this.setState({ output: this.state.rawInput.replace(/\.{2,}/g, '.') })
+        let rawInput = this.state.rawInput;
+        //handle multiple decimal point inputs (0..1) and turn them into single decimal points (0.1).
+        //handle multiple decimal points after the first decimal point and remove them (0.1.2 => 0.12).
+        while (
+            (/\.{2,}/g).test(rawInput) ||
+            (/(?<=\.+\d+)\.+/g).test(rawInput)
+        ) {
+            rawInput = rawInput.replace((/\.{2,}/g), '.');
+            rawInput = rawInput.replace(/(?<=\.+\d+)\.+/g, '');
         }
-        else if (this.state.rawInput.match(/(?<=\d+\.\d+)\.+/g)) {
-            this.setState({ output: this.state.rawInput.replace(/(?<=\d+\.\d+)\.+/g, '') })
+        const regex = /\/|[\d\.]+|[^\d\./]/g;
+        const ops = ['+', '-', 'X', '/', '.'];
+        // console.log('regex: ', rawInput.match(regex))
+        let result = [];
+        for (let item of rawInput) {
+            if (ops.includes(item)) {
+                result.push(item)
+            } else {
+                result.push(math.evaluate(Number(item)))
+            }
         }
-        else {
-            this.setState({ output: this.state.rawInput })
-        }
+        console.log(result)
+        this.setState({ output: result.join('') })
     }
-    //5X1+5+921233+5X6-2/4
-    //40005.010.5
     handleClear() {
         this.setState({
             rawInput: '',
-            output: ''
+            output: '0',
         })
     }
     handleDel() {
@@ -41,12 +52,14 @@ class App extends React.Component {
     }
     handleEval() {
         let result = math.evaluate(this.state.output.replace(/\X/g, '*'))
-        this.setState({ output: result.toString() })
+        this.setState({
+            rawInput: result.toString(),
+            output: result.toString(),
+        })
     }
-
     render() {
-        console.log('rawInput: ', this.state.rawInput);
-        console.log('output: ', this.state.output)
+        // console.log('rawInput: ', this.state.rawInput);
+        // console.log('output: ', this.state.output)
         return (
             <React.Fragment>
                 <div id="calculator-container">
@@ -69,7 +82,7 @@ class App extends React.Component {
                             <button onClick={this.handleEval} className="numbers" id="equals">=</button>
                         </div>
                         <div id="ops">
-                            <button onClick={this.handleDel} className="numbers" id="clear">Del</button>
+                            <button onClick={this.handleDel} className="numbers" id="del">Del</button>
                             <button onClick={this.handleClear} className="numbers" id="clear">AC</button>
                             <button onClick={this.handleInput} className="numbers" id="multiply">X</button>
                             <button onClick={this.handleInput} className="numbers" id="divide">/</button>
@@ -82,6 +95,4 @@ class App extends React.Component {
         )
     }
 }
-
-
 ReactDOM.render(<App />, document.getElementById('app-container'));
