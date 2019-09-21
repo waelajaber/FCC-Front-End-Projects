@@ -15,26 +15,59 @@ class App extends React.Component {
         let rawInput = this.state.rawInput;
         //handle multiple decimal point inputs (0..1) and turn them into single decimal points (0.1).
         //handle multiple decimal points after the first decimal point and remove them (0.1.2 => 0.12).
-        while (
-            (/\.{2,}/g).test(rawInput) ||
-            (/(?<=\.+\d+)\.+/g).test(rawInput)
-        ) {
-            rawInput = rawInput.replace((/\.{2,}/g), '.');
-            rawInput = rawInput.replace(/(?<=\.+\d+)\.+/g, '');
-        }
-        const regex = /\/|[\d\.]+|[^\d\./]/g;
-        const ops = ['+', '-', 'X', '/', '.'];
-        // console.log('regex: ', rawInput.match(regex))
-        let result = [];
-        for (let item of rawInput) {
-            if (ops.includes(item)) {
-                result.push(item)
-            } else {
-                result.push(math.evaluate(Number(item)))
+        // while (
+        //     (/\.{2,}/g).test(rawInput) ||
+        //     (/(?<=\.+\d+)\.+/g).test(rawInput)
+        // ) {
+        //     rawInput = rawInput.replace((/\.{2,}/g), '.');
+        //     rawInput = rawInput.replace(/(?<=\.+\d+)\.+/g, '');
+        // }
+
+        // const regex = /\/|[\d\.]+|[^\d\./]/g;
+        // const ops = ['+', '-', 'X', '/', '.'];
+
+        // // console.log('regex: ', rawInput.match(regex))
+
+        // let result = [];
+
+        // for (let item of rawInput.match(regex)) {
+        //     if (ops.includes(item)) {
+        //         result.push(item)
+        //     } else {
+        //         result.push(math.evaluate(Number(item)))
+        //     }
+        // }
+
+        const format = (str) => {
+            while ((/\.{2,}/g).test(str) || (/(?<=\.+\d+)\.+/g).test(str)) {
+                str = str.replace((/\.{2,}/g), '.')
+                str = str.replace(/(?<=\.+\d+)\.+/g, '')
             }
+            // match numbers and operations i.e ('02.1+004-20' => ['02.1', '+', ...]) 
+            const reg = /\/|[\d\.]+|[^\d\./]/g;
+            // match zeros if followed by digits decimal digits
+            const reg1 = /0+(?=\d+\.\d+)/g
+            // match decimal numbers
+            const reg2 = /(\d+\.\d+)/g
+            let result = [];
+
+            for (let item of str.match(reg)) {
+                if (reg1.test(item)) {
+                    result.push(item.replace(reg1, ''))
+                }
+                // if item is not a decimal number, push item and replace leading zeros 
+                // i.e zeros followed by numbers by an empty string
+                else if (!reg2.test(item)) {
+                    result.push(item.replace(/0+(?=\d+)/g, ''))
+                }
+                // push the operations into the the result.
+                else {
+                    result.push(item)
+                }
+            }
+            return result.join('')
         }
-        console.log(result)
-        this.setState({ output: result.join('') })
+        this.setState({ output: format(rawInput) })
     }
     handleClear() {
         this.setState({
