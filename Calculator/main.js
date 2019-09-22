@@ -13,31 +13,6 @@ class App extends React.Component {
     handleInput(e) {
         this.state.rawInput += e.target.innerHTML;
         let rawInput = this.state.rawInput;
-        //handle multiple decimal point inputs (0..1) and turn them into single decimal points (0.1).
-        //handle multiple decimal points after the first decimal point and remove them (0.1.2 => 0.12).
-        // while (
-        //     (/\.{2,}/g).test(rawInput) ||
-        //     (/(?<=\.+\d+)\.+/g).test(rawInput)
-        // ) {
-        //     rawInput = rawInput.replace((/\.{2,}/g), '.');
-        //     rawInput = rawInput.replace(/(?<=\.+\d+)\.+/g, '');
-        // }
-
-        // const regex = /\/|[\d\.]+|[^\d\./]/g;
-        // const ops = ['+', '-', 'X', '/', '.'];
-
-        // // console.log('regex: ', rawInput.match(regex))
-
-        // let result = [];
-
-        // for (let item of rawInput.match(regex)) {
-        //     if (ops.includes(item)) {
-        //         result.push(item)
-        //     } else {
-        //         result.push(math.evaluate(Number(item)))
-        //     }
-        // }
-
         const format = (str) => {
             while ((/\.{2,}/g).test(str) || (/(?<=\.+\d+)\.+/g).test(str)) {
                 str = str.replace((/\.{2,}/g), '.')
@@ -74,6 +49,7 @@ class App extends React.Component {
             rawInput: '',
             output: '0',
         })
+        console.log('clear')
     }
     handleDel() {
         let current = this.state.output;
@@ -84,15 +60,36 @@ class App extends React.Component {
         })
     }
     handleEval() {
-        let result = math.evaluate(this.state.output.replace(/\X/g, '*'))
+        const handleContiguousOperations = (str) => {
+            const removeLastElement = (str) => {
+                return str.concat().slice(0, str.length - 1)
+            }
+            const contiguousOpReg = /[+X/]{2,}/g
+            // match contiguous operations
+            let contiguousOperations = str.match(contiguousOpReg)
+            // remove last element in each set of contiguous operations
+            // because the last element is the operation that will be eventually implemented
+            // i.e 5+*/9 => 5/9 
+            let result = str;
+            if (contiguousOpReg.test(str)) {
+                contiguousOperations = contiguousOperations.map(i => removeLastElement(i))
+                result = [...str.split('')].join('');
+                for (let contOp of contiguousOperations) {
+                    // console.log(contOp)
+                    result = result.replace(contOp, '')
+                }
+            }
+            return result
+        }
+
+        let result = math.evaluate(handleContiguousOperations(this.state.output.replace(/\X/g, '*')))
         this.setState({
             rawInput: result.toString(),
             output: result.toString(),
         })
     }
     render() {
-        // console.log('rawInput: ', this.state.rawInput);
-        // console.log('output: ', this.state.output)
+        console.log(this.state.rawInput)
         return (
             <React.Fragment>
                 <div id="calculator-container">
