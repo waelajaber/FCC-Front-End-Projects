@@ -64,7 +64,12 @@ class App extends React.Component {
             const removeLastElement = (str) => {
                 return str.concat().slice(0, str.length - 1)
             }
-            const contiguousOpReg = /[+X/]{2,}/g
+
+            // Protect the negative number '-' by replacing it with neg
+            // before filtering out all the other non negative indicating '-' signs
+            // involved in contiguous operations.
+            str = str.replace(/-(?=\d)/g, 'neg');
+            const contiguousOpReg = /[+X*/-]{2,}/g
             // match contiguous operations
             let contiguousOperations = str.match(contiguousOpReg)
             // remove last element in each set of contiguous operations
@@ -79,7 +84,8 @@ class App extends React.Component {
                     result = result.replace(contOp, '')
                 }
             }
-            return result
+            console.log('result: ', result)
+            return result.replace('neg', '-')
         }
 
         let result = math.evaluate(handleContiguousOperations(this.state.output.replace(/\X/g, '*')))
