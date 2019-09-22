@@ -87,6 +87,10 @@ class App extends React.Component {
             console.log('result: ', result)
             return result.replace('neg', '-')
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> development
         let result = math.evaluate(handleContiguousOperations(this.state.output.replace(/\X/g, '*')))
         this.setState({
             rawInput: result.toString(),
