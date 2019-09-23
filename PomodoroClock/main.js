@@ -1,9 +1,44 @@
-import Break from './components/break_display'
+class Break extends React.Component {
+    render() {
+        return (
+            <div id="break-length">
+                {this.props.value}
+            </div>
+        )
+    }
+}
+class Session extends React.Component {
+    render() {
+        return (
+            <div id="session-length">
+                {this.props.value}
+            </div>
+        )
+    }
+}
+class TimeLabel extends React.Component {
+    render() {
+        return (
+            <div id="timer-label">
+                {this.props.value}
+            </div>
+        )
+    }
+}
+class TimeLeft extends React.Component {
+    render() {
+        return (
+            <div id="time-left">
+                {this.props.time}
+            </div>
+        )
+    }
+}
 
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
+class Main extends React.Component {
+    constructor() {
+        super();
         this.state = {
         };
     }
@@ -16,17 +51,14 @@ class App extends React.Component {
                 <button className="btn btn-sm btn-primary p-2 m-1" id="session-decrement">session-decrement</button>
                 <button className="btn btn-sm btn-primary p-2 m-1" id="break-increment">break-increment</button>
                 <button className="btn btn-sm btn-primary p-2 m-1" id="session-increment">session-increment</button>
-                <Break value='5' />
-                <div id="session-length" value='25'>{this.props.value}</div>
-                <div id="timer-label"></div>
-                <div id="timer-label"></div>
-                <div id="time-left"></div>
+                <Break value={5} />
+                <Session value={25} />
+                <TimeLabel value={'Session'} />
+                <TimeLeft time={"25:00"} />
                 <button className="btn btn-sm btn-primary p-2 m-1" id="start-stop">start/stop</button>
                 <button className="btn btn-sm btn-primary p-2 m-1" id="reset">reset</button>
-
-
             </React.Fragment>
         )
     }
 }
-ReactDOM.render(<App />, document.getElementById('app-container'));
+ReactDOM.render(<Main />, document.getElementById('app-container'));
