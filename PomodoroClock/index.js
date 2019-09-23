@@ -1,8 +1,11 @@
 class Break extends React.Component {
     render() {
         return (
-            <div id="break-length">
-                {this.props.value}
+            <div id="break-container">
+                <div id="break-label" className="text-success">Break Length</div>
+                <div id="break-duration" className="text-danger">{this.props.value}</div>
+                <button id="break-decrement" className="btn btn-sm btn-primary p-2 m-1">break-decrement</button>
+                <button id="break-increment" className="btn btn-sm btn-primary p-2 m-1">break-increment</button>
             </div>
         )
     }
@@ -10,54 +13,47 @@ class Break extends React.Component {
 class Session extends React.Component {
     render() {
         return (
-            <div id="session-length">
-                {this.props.value}
+            <div id="session-container">
+                <div id="session-label" className="text-success" >Session Length</div>
+                <div id="session-duration" className="text-danger" >{this.props.value}</div>
+                <button id="session-decrement" className="btn btn-sm btn-primary p-2 m-1" >session-decrement</button>
+                <button id="session-increment" className="btn btn-sm btn-primary p-2 m-1" >session-increment</button>
             </div>
         )
     }
 }
-class TimeLabel extends React.Component {
+class Controls extends React.Component {
     render() {
         return (
-            <div id="timer-label">
-                {this.props.value}
+            <div id="controls-container">
+                <button id="start-stop" className="btn btn-sm btn-primary p-2 m-1" >start/stop</button>
+                <button id="reset" className="btn btn-sm btn-primary p-2 m-1">reset</button>
             </div>
         )
     }
 }
-class TimeLeft extends React.Component {
+class Display extends React.Component {
     render() {
         return (
-            <div id="time-left">
-                {this.props.time}
-            </div>
+            <div id="display-container">{this.props.value}</div>
         )
     }
 }
-
-
 class Main extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
+            sessionTime: 25,
         };
     }
     render() {
         return (
-            <React.Fragment>
-                <div className="" id="break-label">Break Length</div>
-                <div className="" id="session-label">Session Length</div>
-                <button className="btn btn-sm btn-primary p-2 m-1" id="break-decrement">break-decrement</button>
-                <button className="btn btn-sm btn-primary p-2 m-1" id="session-decrement">session-decrement</button>
-                <button className="btn btn-sm btn-primary p-2 m-1" id="break-increment">break-increment</button>
-                <button className="btn btn-sm btn-primary p-2 m-1" id="session-increment">session-increment</button>
-                <Break value={5} />
+            <div id="clock-container" className="container">
+                <Display value={this.state.sessionTime} />
                 <Session value={25} />
-                <TimeLabel value={'Session'} />
-                <TimeLeft time={"25:00"} />
-                <button className="btn btn-sm btn-primary p-2 m-1" id="start-stop">start/stop</button>
-                <button className="btn btn-sm btn-primary p-2 m-1" id="reset">reset</button>
-            </React.Fragment>
+                <Break value={5} />
+                <Controls />
+            </div>
         )
     }
 }
