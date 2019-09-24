@@ -1,11 +1,34 @@
+class Display extends React.Component {
+    render() {
+        return (
+            <div id="display-container" className="font-weight-bold text-center border border-secondary rounded-lg p-2 m-4">
+                {this.props.value}
+            </div>
+        )
+    }
+}
 class Break extends React.Component {
     render() {
         return (
-            <div id="break-container">
-                <div id="break-label" className="text-success">Break Length</div>
-                <div id="break-duration" className="text-danger">{this.props.value}</div>
-                <button id="break-decrement" className="btn btn-sm btn-primary p-2 m-1">break-decrement</button>
-                <button id="break-increment" className="btn btn-sm btn-primary p-2 m-1">break-increment</button>
+            <div id="break-container" className="container mb-5">
+                <div className="row justify-content-center">
+                    <div id="break-label" className="text-success text-center">Break Length</div>
+                </div>
+                <div className="row justify-content-center">
+                    <div id="break-duration" className="text-danger">{this.props.value}</div>
+                </div>
+                <div className="row justify-content-center">
+                    <div className="col text-center">
+                        <button id="break-decrement" className="btn btn-sm btn-primary">
+                            <i className="fa fa-arrow-down"></i>
+                        </button>
+                    </div>
+                    <div className="col text-center">
+                        <button id="break-increment" className="btn btn-sm btn-primary">
+                            <i className="fa fa-arrow-up"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -13,11 +36,26 @@ class Break extends React.Component {
 class Session extends React.Component {
     render() {
         return (
-            <div id="session-container">
-                <div id="session-label" className="text-success" >Session Length</div>
-                <div id="session-duration" className="text-danger" >{this.props.value}</div>
-                <button id="session-decrement" className="btn btn-sm btn-primary p-2 m-1" >session-decrement</button>
-                <button id="session-increment" className="btn btn-sm btn-primary p-2 m-1" >session-increment</button>
+            <div id="session-container" className="container mb-5">
+
+                <div className="row justify-content-center">
+                    <div id="session-label" className="text-success text-center">Session Length</div>
+                </div>
+                <div className="row justify-content-center">
+                    <div id="session-duration" className="text-danger">{this.props.value}</div>
+                </div>
+                <div className="row justify-content-center">
+                    <div className="col text-center">
+                        <button id="session-decrement" className="btn btn-sm btn-primary">
+                            <i className="fa fa-arrow-down"></i>
+                        </button>
+                    </div>
+                    <div className="col text-center">
+                        <button id="session-increment" className="btn btn-sm btn-primary">
+                            <i className="fa fa-arrow-up"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -25,33 +63,43 @@ class Session extends React.Component {
 class Controls extends React.Component {
     render() {
         return (
-            <div id="controls-container">
-                <button id="start-stop" className="btn btn-sm btn-primary p-2 m-1" >start/stop</button>
-                <button id="reset" className="btn btn-sm btn-primary p-2 m-1">reset</button>
+            <div id="controls-container" className="justify-content-center text-center">
+                <button id="start-stop" className="btn btn-sm btn-primary p-2 m-1">
+                    <i className="fa fa-play mx-2"></i>
+                    <i className="fa fa-pause mx-2"></i>
+                </button>
+
+                <button id="reset" className="btn btn-sm btn-primary p-2 m-1">
+                    <i className="fa fa-refresh"></i>
+                </button>
             </div>
         )
     }
 }
-class Display extends React.Component {
-    render() {
-        return (
-            <div id="display-container">{this.props.value}</div>
-        )
-    }
-}
+
 class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sessionTime: 25,
+            sessionLength: 25,
+            breakLength: 5,
+            timeLeft: null,
         };
     }
     render() {
         return (
-            <div id="clock-container" className="container">
-                <Display value={this.state.sessionTime} />
-                <Session value={25} />
-                <Break value={5} />
+            <div id="clock-container">
+                <Display value={this.state.timeLeft} />
+                <div className="container">
+                    <div className="row">
+                        <div className="col">
+                            <Break value={5} />
+                        </div>
+                        <div className="col">
+                            <Session value={25} />
+                        </div>
+                    </div>
+                </div>
                 <Controls />
             </div>
         )

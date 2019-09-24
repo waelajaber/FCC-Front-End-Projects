@@ -7,6 +7,14 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate(-50%, -50%);
+  /* -webkit-transform: translate(-50%, -50%); */
   transform: translate(-50%, -50%);
+}
+
+#clock-container {
+  min-width: 350px;
+  /* background-color: rgb(173, 173, 173); */
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.245) 1px 1px 20px 1px;
 }
