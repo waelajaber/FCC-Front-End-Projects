@@ -13,6 +13,7 @@
 
 #clock-container {
   min-width: 350px;
+  min-height: 200px;
   /* background-color: rgb(173, 173, 173); */
   padding: 15px;
   border-radius: 10px;
