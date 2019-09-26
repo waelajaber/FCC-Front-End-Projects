@@ -4,7 +4,7 @@ class Display extends React.Component {
             <div id="display-container" className="mb-3">
                 <h5 id="timer-label" className="text-center">Session</h5>
                 <div id="time-left" className="font-weight-bold text-center">
-                    {this.props.value}
+                    {this.props.minutes}
                 </div>
             </div>
         )
@@ -79,7 +79,7 @@ class Controls extends React.Component {
     render() {
         return (
             <div id="controls-container" className="justify-content-center text-center">
-                <button id="start_stop" className="btn btn-sm btn-primary p-2 m-1">
+                <button id="start_stop" className="btn btn-sm btn-primary p-2 m-1" onClick={this.props.start}>
                     <i className="fa fa-play mx-2"></i>
                     <i className="fa fa-pause mx-2"></i>
                 </button>
@@ -97,37 +97,46 @@ class Main extends React.Component {
         this.state = {
             sessionLength: 25,
             breakLength: 5,
-            timeLeft: 25,
+            timeDisplay: null,
+            endTime: null,
         };
         this.handleBreakChange = this.handleBreakChange.bind(this);
         this.handleSessionChange = this.handleSessionChange.bind(this);
+        this.startTimer = this.startTimer.bind(this);
     }
+    componentDidMount() {
+        this.setState({ timeDisplay: `${this.state.sessionLength}:00` })
+    }
+
     handleBreakChange(amount) {
-        // if (this.state.breakLength >= 2 && this.state.breakLength < 60) {
         this.setState({ breakLength: this.state.breakLength + amount })
-        // document.getElementById('break-decrement').disabled = false;
-        // }
-        // else {
-        //     this.setState({ breakLength: 2 })
-        //     document.getElementById('break-decrement').disabled = true;
-        // }
     }
+
     handleSessionChange(amount) {
-        // if (this.state.sessionLength >= 2 && this.state.sessionLength < 60) {
         this.setState({
             sessionLength: this.state.sessionLength + amount,
-            timeLeft: this.state.sessionLength + amount,
+            timeDisplay: this.state.sessionLength + amount,
         })
-        // }
-        // else {
-        //     this.setState({ sessionLength: 2 })
-        // }
     }
+
+    startTimer() {
+        this.setState({ endTime: Date.now() + (this.state.sessionLength * 60 * 1000) })
+        setInterval(() => {
+            let minutesRemaining = (this.state.endTime - Date.now()) / 60 / 1000;
+            let result = (minutesRemaining).toFixed(2)
+            let timerMinutes = result.replace(/(?<=\.)\d+/, '').replace('.', '');
+            let timerSeconds = Math.round((Number(result.match(/(?<=\.)\d+/)[0])) * (60 / 100));
+            this.setState({
+                timeDisplay: `${timerMinutes}:${timerSeconds}`
+            })
+        }, 1000)
+    }
+
     render() {
         return (
             <div id="clock-container">
                 <h2 className="text-center mb-4">Pomodoro Clock</h2>
-                <Display value={this.state.timeLeft} />
+                <Display minutes={this.state.timeDisplay} />
                 <div className="container">
                     <div className="row">
                         <div className="col">
@@ -138,14 +147,9 @@ class Main extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Controls />
+                <Controls start={this.startTimer} />
             </div>
         )
     }
 }
 ReactDOM.render(<Main />, document.getElementById('app-container'));
-
-let countDownDate = setInterval(() => {
-    new Date().getTime() + (25 * 60 * 1000);
-}, 1000)
-
