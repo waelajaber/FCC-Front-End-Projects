@@ -84,7 +84,7 @@ class Controls extends React.Component {
                     <i className="fa fa-pause mx-2"></i>
                 </button>
 
-                <button id="reset" className="btn btn-sm btn-primary p-2 m-1">
+                <button id="reset" className="btn btn-sm btn-primary p-2 m-1" onClick={this.props.reset}>
                     <i className="fa fa-refresh"></i>
                 </button>
             </div>
@@ -97,46 +97,72 @@ class Main extends React.Component {
         this.state = {
             sessionLength: 25,
             breakLength: 5,
-            timeDisplay: null,
+            timerDisplay: 25,
             endTime: null,
+            timeLeft: 25,
+            timerOn: false,
         };
         this.handleBreakChange = this.handleBreakChange.bind(this);
         this.handleSessionChange = this.handleSessionChange.bind(this);
         this.startTimer = this.startTimer.bind(this);
+        this.handleReset = this.handleReset.bind(this);
     }
-    componentDidMount() {
-        this.setState({ timeDisplay: `${this.state.sessionLength}:00` })
-    }
-
     handleBreakChange(amount) {
         this.setState({ breakLength: this.state.breakLength + amount })
     }
-
     handleSessionChange(amount) {
         this.setState({
             sessionLength: this.state.sessionLength + amount,
-            timeDisplay: this.state.sessionLength + amount,
+            timerDisplay: this.state.sessionLength + amount,
         })
     }
-
-    startTimer() {
-        this.setState({ endTime: Date.now() + (this.state.sessionLength * 60 * 1000) })
-        setInterval(() => {
-            let minutesRemaining = (this.state.endTime - Date.now()) / 60 / 1000;
-            let result = (minutesRemaining).toFixed(2)
-            let timerMinutes = result.replace(/(?<=\.)\d+/, '').replace('.', '');
-            let timerSeconds = Math.round((Number(result.match(/(?<=\.)\d+/)[0])) * (60 / 100));
-            this.setState({
-                timeDisplay: `${timerMinutes}:${timerSeconds}`
-            })
-        }, 1000)
+    handleReset() {
+        this.setState({
+            sessionLength: 25,
+            breakLength: 5,
+            timerDisplay: 25,
+            endTime: null,
+            timeLeft: 25,
+        })
     }
-
+    startTimer() {
+        let interval = null;
+        this.setState({
+            endTime: Date.now() + (this.state.sessionLength * 60 * 1000),
+        })
+        if (this.state.timeLeft > 0 && this.state.timerOn === false) {
+            this.setState({ timerOn: true })
+            interval = setInterval(() => {
+                let secondsRemaining = (this.state.endTime - Date.now()) / 1000;
+                let minutesRemaining = secondsRemaining / 60;
+                let result = (minutesRemaining).toFixed(2)
+                let timerMinutes = result.replace(/(?<=\.)\d+/, '').replace('.', '');
+                let timerSeconds = Math.round((Number(result.match(/(?<=\.)\d+/)[0])) * (60 / 100));
+                this.setState({
+                    timerDisplay: `${timerMinutes}:${timerSeconds}`,
+                    timeLeft: secondsRemaining,
+                })
+            }, 1000)
+            console.log('if')
+        }
+        else {
+            console.log('else')
+            clearInterval(interval)
+        }
+    }
+    componentDidMount() {
+        document.getElementById('time-left').innerHTML = `${this.state.sessionLength}:00`;
+    }
+    componentDidUpdate() {
+        if (this.state.timerOn === false) {
+            document.getElementById('time-left').innerHTML = `${this.state.sessionLength}:00`;
+        }
+    }
     render() {
         return (
             <div id="clock-container">
                 <h2 className="text-center mb-4">Pomodoro Clock</h2>
-                <Display minutes={this.state.timeDisplay} />
+                <Display minutes={this.state.timerDisplay} />
                 <div className="container">
                     <div className="row">
                         <div className="col">
@@ -147,7 +173,7 @@ class Main extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Controls start={this.startTimer} />
+                <Controls start={this.startTimer} reset={this.handleReset} />
             </div>
         )
     }
