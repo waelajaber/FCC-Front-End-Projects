@@ -52,7 +52,6 @@ class Session extends React.Component {
     render() {
         return (
             <div id="session-container" className="container mb-5">
-
                 <div className="row justify-content-center">
                     <div id="session-label" className="text-success text-center">Session Length</div>
                 </div>
@@ -79,11 +78,10 @@ class Controls extends React.Component {
     render() {
         return (
             <div id="controls-container" className="justify-content-center text-center">
-                <button id="start_stop" className="btn btn-sm btn-primary p-2 m-1" onClick={this.props.start}>
+                <button id="start_stop" className="btn btn-sm btn-primary p-2 m-1" onClick={this.props.toggle}>
                     <i className="fa fa-play mx-2"></i>
                     <i className="fa fa-pause mx-2"></i>
                 </button>
-
                 <button id="reset" className="btn btn-sm btn-primary p-2 m-1" onClick={this.props.reset}>
                     <i className="fa fa-refresh"></i>
                 </button>
@@ -96,11 +94,12 @@ class Main extends React.Component {
         super(props);
         this.state = {
             sessionLength: 1,
-            breakLength: 5,
+            breakLength: 1,
             timerDisplay: 1,
             endTime: null,
             timeLeft: 1,
             timerOn: false,
+            startStopCounter: 0,
             label: 'Session',
         };
         this.handleBreakChange = this.handleBreakChange.bind(this);
@@ -108,16 +107,40 @@ class Main extends React.Component {
         this.startTimer = this.startTimer.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.startBreak = this.startBreak.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
+        this.handleStartStop = this.handleStartStop.bind(this);
     }
+
     handleBreakChange(amount) {
         this.setState({ breakLength: this.state.breakLength + amount })
     }
+
     handleSessionChange(amount) {
         this.setState({
             sessionLength: this.state.sessionLength + amount,
             timerDisplay: this.state.sessionLength + amount,
         })
     }
+
+    handleToggle() {
+        this.setState({ startStopCounter: this.state.startStopCounter + 1 });
+        if (this.state.startStopCounter % 2 === 0) {
+            this.setState({ timerOn: true })
+        }
+        else {
+            this.setState({ timerOn: false })
+        }
+        if (this.state.timerOn === true) {
+        }
+    }
+
+    handleStartStop() {
+        console.log('success')
+        if (this.state.timerOn === true) {
+            this.startTimer()
+        }
+    }
+
     handleReset() {
         this.setState({
             sessionLength: 1,
@@ -128,13 +151,13 @@ class Main extends React.Component {
             timerOn: false,
         })
     }
+
     startTimer() {
         let intervalSession = null;
         this.setState({
             endTime: Date.now() + (this.state.sessionLength * 60 * 1000),
         })
         if (this.state.timerOn === true) {
-            this.setState({ timerOn: true });
             intervalSession = setInterval(() => {
                 let secondsRemaining = (this.state.endTime - Date.now()) / 1000;
                 let minutesRemaining = secondsRemaining / 60;
@@ -159,32 +182,38 @@ class Main extends React.Component {
             label: 'Break',
             endTime: Date.now() + (this.state.breakLength * 60 * 1000),
         });
-        intervalBreak = setInterval(() => {
-            let secondsRemaining = (this.state.endTime - Date.now()) / 1000;
-            let minutesRemaining = secondsRemaining / 60;
-            let result = (minutesRemaining).toFixed(2);
-            let timerMinutes = result.replace(/(?<=\.)\d+/, '').replace('.', '');
-            let timerSeconds = Math.round((Number(result.match(/(?<=\.)\d+/)[0])) * (60 / 100));
-            this.setState({
-                timerDisplay: `${timerMinutes}:${timerSeconds}`,
-                timeLeft: Math.round(secondsRemaining),
-            });
-            if (Math.round((this.state.endTime / 1000) - (Date.now() / 1000)) === 0) {
-                clearInterval(intervalBreak);
-                this.startTimer();
-            }
-        }, 1000)
+        if (this.state.timerOn === true) {
+            intervalBreak = setInterval(() => {
+                let secondsRemaining = (this.state.endTime - Date.now()) / 1000;
+                let minutesRemaining = secondsRemaining / 60;
+                let result = (minutesRemaining).toFixed(2);
+                let timerMinutes = result.replace(/(?<=\.)\d+/, '').replace('.', '');
+                let timerSeconds = Math.round((Number(result.match(/(?<=\.)\d+/)[0])) * (60 / 100));
+                this.setState({
+                    timerDisplay: `${timerMinutes}:${timerSeconds}`,
+                    timeLeft: Math.round(secondsRemaining),
+                });
+                if (Math.round((this.state.endTime / 1000) - (Date.now() / 1000)) === 0) {
+                    clearInterval(intervalBreak);
+                    this.startTimer();
+                }
+            }, 1000)
+        }
     }
 
     componentDidMount() {
         this.setState({ endTime: Math.round((this.state.sessionLength + Date.now()) / 1000) })
         document.getElementById('time-left').innerHTML = `${this.state.sessionLength}:00`;
+        this.handleStartStop()
     }
+
     componentDidUpdate() {
         if (this.state.timerOn === false) {
             document.getElementById('time-left').innerHTML = `${this.state.sessionLength}:00`;
+
         }
     }
+
     render() {
         return (
             <div id="clock-container">
@@ -200,7 +229,7 @@ class Main extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Controls start={this.startTimer} reset={this.handleReset} />
+                <Controls toggle={this.handleToggle} reset={this.handleReset} />
             </div>
         )
     }
