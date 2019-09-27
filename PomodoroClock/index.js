@@ -93,12 +93,12 @@ class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sessionLength: 1,
-            breakLength: 1,
-            timerDisplay: 1,
+            sessionLength: 25,
+            breakLength: 5,
+            timerDisplay: 25,
             endTime: null,
-            timeLeft: 1,
-            timerOn: false,
+            timeLeft: 25,
+            timerOn: true,
             startStopCounter: 0,
             label: 'Session',
         };
@@ -108,7 +108,7 @@ class Main extends React.Component {
         this.handleReset = this.handleReset.bind(this);
         this.startBreak = this.startBreak.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
-        this.handleStartStop = this.handleStartStop.bind(this);
+        // this.handleStartStop = this.handleStartStop.bind(this);
     }
 
     handleBreakChange(amount) {
@@ -123,6 +123,7 @@ class Main extends React.Component {
     }
 
     handleToggle() {
+
         this.setState({ startStopCounter: this.state.startStopCounter + 1 });
         if (this.state.startStopCounter % 2 === 0) {
             this.setState({ timerOn: true })
@@ -131,24 +132,26 @@ class Main extends React.Component {
             this.setState({ timerOn: false })
         }
         if (this.state.timerOn === true) {
-        }
-    }
-
-    handleStartStop() {
-        console.log('success')
-        if (this.state.timerOn === true) {
+            console.log('toggle')
             this.startTimer()
         }
     }
 
+    // handleStartStop() {
+    //     console.log('success')
+    //     if (this.state.timerOn === true) {
+    //         this.startTimer()
+    //     }
+    // }
+
     handleReset() {
         this.setState({
-            sessionLength: 1,
+            sessionLength: 25,
             breakLength: 5,
-            timerDisplay: 1,
+            timerDisplay: 25,
             endTime: null,
-            timeLeft: 1,
-            timerOn: false,
+            timeLeft: 25,
+            timerOn: true,
         })
     }
 
@@ -194,6 +197,7 @@ class Main extends React.Component {
                     timeLeft: Math.round(secondsRemaining),
                 });
                 if (Math.round((this.state.endTime / 1000) - (Date.now() / 1000)) === 0) {
+                    console.log('break ended starting timer')
                     clearInterval(intervalBreak);
                     this.startTimer();
                 }
@@ -204,13 +208,11 @@ class Main extends React.Component {
     componentDidMount() {
         this.setState({ endTime: Math.round((this.state.sessionLength + Date.now()) / 1000) })
         document.getElementById('time-left').innerHTML = `${this.state.sessionLength}:00`;
-        this.handleStartStop()
     }
 
     componentDidUpdate() {
-        if (this.state.timerOn === false) {
+        if (this.state.timerOn === true) {
             document.getElementById('time-left').innerHTML = `${this.state.sessionLength}:00`;
-
         }
     }
 
