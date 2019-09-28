@@ -95,7 +95,7 @@ class Main extends React.Component {
         this.state = {
             sessionLength: 25,
             breakLength: 5,
-            timeLeft: '25:00',
+            timeLeft: null,
             label: 'Session',
             timerOn: false,
             startStopCounter: 0,
@@ -104,66 +104,84 @@ class Main extends React.Component {
         this.handleSessionChange = this.handleSessionChange.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
-    }
+        this.handleStart = this.handleStart.bind(this);
 
+    }
     handleBreakChange(amount) {
         if (!this.state.timerOn) {
             this.setState({ breakLength: this.state.breakLength + amount })
         }
     }
-
     handleSessionChange(amount) {
         if (!this.state.timerOn) {
             this.setState({
                 sessionLength: this.state.sessionLength + amount,
-                timeLeft: this.state.sessionLength + amount,
+                timeLeft: `${this.state.sessionLength + amount}:00`
             })
         }
     }
-
+    componentDidMount() {
+        this.setState({
+            timeLeft: `${this.state.sessionLength}:00`,
+            timer: new Timer(),
+        });
+    }
+    componentDidUpdate() {
+        this.state.timer.addEventListener('secondsUpdated', (e) => {
+            this.setState({
+                timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
+            });
+        });
+    }
+    handleToggle() {
+        console.log('handleToggle')
+        this.setState({
+            startStopCounter: this.state.startStopCounter + 1,
+        })
+        if (this.state.startStopCounter % 2 === 0) {
+            console.log('toggle-if')
+            this.handleStart();
+        }
+        else {
+            console.log('toggle-else')
+            this.handlePause();
+        }
+    }
+    handleStart() {
+        console.log('handleStart')
+        this.state.timer.start({ countdown: true, startValues: { minutes: this.state.sessionLength, seconds: 0 } });
+        this.state.timer.addEventListener('started', (e) => {
+            this.setState({
+                timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
+            });
+        });
+    }
+    handlePause() {
+        console.log('handlePause')
+        this.state.timer.pause();
+    }
     handleReset() {
         this.setState({
             sessionLength: 25,
             breakLength: 5,
-            timeLeft: '25:00',
+            timeLeft: null,
             label: 'Session',
             timerOn: false,
             startStopCounter: 0,
+            sessionInterval: clearInterval(this.state.intervalSession),
         })
-    }
-
-    handleToggle() {
-        this.setState({
-            startStopCounter: this.state.startStopCounter + 1,
-            intervalSession: null,
-        })
-        if (this.state.startStopCounter % 2 === 0) {
+        this.state.timer.addEventListener('reset', (e) => {
             this.setState({
-                timerOn: true,
-                endTime: ((Date.now() / (1000 * 60)) + this.state.sessionLength),
-                intervalSession: setInterval(() => {
-                    let minutesLeft = (this.state.endTime - (Date.now() / (1000 * 60)));
-                    let secondsLeft = Math.round(Number(minutesLeft.toFixed(2).toString().match(/(?<=\.)\d+/g)) * (60 / 100))
-                    this.setState({
-                        timeLeft: `${minutesLeft.toString().match(/\d+(?=\.)/g)}:${secondsLeft}`,
-                        // timeLeft: secondsLeft
-                    })
-                }, 1000)
-            })
-        }
-        else {
-            this.setState({
-                timerOn: false,
-                intervalSession: clearInterval(this.state.intervalSession)
-            })
-        }
+                timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
+            });
+        });
     }
-
+    //                 timeLeft: timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
     render() {
         return (
-            <div id="clock-container">
+            <div id="clock-container" >
                 <h2 className="text-center mb-4">Pomodoro Clock</h2>
-                <Display minutes={this.state.timerOn ? this.state.timeLeft : `${this.state.sessionLength}:00`} label={this.state.label} />
+                <Display minutes={this.state.timeLeft} label={this.state.label} />
                 <div className="container">
                     <div className="row">
                         <div className="col">
