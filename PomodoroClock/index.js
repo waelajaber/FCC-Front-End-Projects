@@ -95,124 +95,67 @@ class Main extends React.Component {
         this.state = {
             sessionLength: 25,
             breakLength: 5,
-            timerDisplay: 25,
-            endTime: null,
-            timeLeft: 25,
-            timerOn: true,
-            startStopCounter: 0,
+            timeLeft: '25:00',
             label: 'Session',
+            timerOn: false,
+            startStopCounter: 0,
         };
         this.handleBreakChange = this.handleBreakChange.bind(this);
         this.handleSessionChange = this.handleSessionChange.bind(this);
-        this.startTimer = this.startTimer.bind(this);
         this.handleReset = this.handleReset.bind(this);
-        this.startBreak = this.startBreak.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
-        // this.handleStartStop = this.handleStartStop.bind(this);
     }
 
     handleBreakChange(amount) {
-        this.setState({ breakLength: this.state.breakLength + amount })
+        if (!this.state.timerOn) {
+            this.setState({ breakLength: this.state.breakLength + amount })
+        }
     }
 
     handleSessionChange(amount) {
-        this.setState({
-            sessionLength: this.state.sessionLength + amount,
-            timerDisplay: this.state.sessionLength + amount,
-        })
-    }
-
-    handleToggle() {
-
-        this.setState({ startStopCounter: this.state.startStopCounter + 1 });
-        if (this.state.startStopCounter % 2 === 0) {
-            this.setState({ timerOn: true })
-        }
-        else {
-            this.setState({ timerOn: false })
-        }
-        if (this.state.timerOn === true) {
-            console.log('toggle')
-            this.startTimer()
+        if (!this.state.timerOn) {
+            this.setState({
+                sessionLength: this.state.sessionLength + amount,
+                timeLeft: this.state.sessionLength + amount,
+            })
         }
     }
-
-    // handleStartStop() {
-    //     console.log('success')
-    //     if (this.state.timerOn === true) {
-    //         this.startTimer()
-    //     }
-    // }
 
     handleReset() {
         this.setState({
             sessionLength: 25,
             breakLength: 5,
-            timerDisplay: 25,
-            endTime: null,
-            timeLeft: 25,
-            timerOn: true,
+            timeLeft: '25:00',
+            label: 'Session',
+            timerOn: false,
+            startStopCounter: 0,
         })
     }
 
-    startTimer() {
-        let intervalSession = null;
+    handleToggle() {
         this.setState({
-            endTime: Date.now() + (this.state.sessionLength * 60 * 1000),
+            startStopCounter: this.state.startStopCounter + 1,
+            intervalSession: null,
         })
-        if (this.state.timerOn === true) {
-            intervalSession = setInterval(() => {
-                let secondsRemaining = (this.state.endTime - Date.now()) / 1000;
-                let minutesRemaining = secondsRemaining / 60;
-                let result = (minutesRemaining).toFixed(2);
-                let timerMinutes = result.replace(/(?<=\.)\d+/, '').replace('.', '');
-                let timerSeconds = Math.round((Number(result.match(/(?<=\.)\d+/)[0])) * (60 / 100));
-                this.setState({
-                    timerDisplay: `${timerMinutes}:${timerSeconds}`,
-                    timeLeft: Math.round(secondsRemaining),
-                });
-                if (Math.round((this.state.endTime / 1000) - (Date.now() / 1000)) === 1) {
-                    clearInterval(intervalSession);
-                    this.startBreak();
-                }
-            }, 1000)
+        if (this.state.startStopCounter % 2 === 0) {
+            this.setState({
+                timerOn: true,
+                endTime: ((Date.now() / (1000 * 60)) + this.state.sessionLength),
+                intervalSession: setInterval(() => {
+                    let minutesLeft = (this.state.endTime - (Date.now() / (1000 * 60)));
+                    let secondsLeft = Math.round(Number(minutesLeft.toFixed(2).toString().match(/(?<=\.)\d+/g)) * (60 / 100))
+                    this.setState({
+                        timeLeft: `${minutesLeft.toString().match(/\d+(?=\.)/g)}:${secondsLeft}`,
+                        // timeLeft: secondsLeft
+                    })
+                }, 1000)
+            })
         }
-    }
-
-    startBreak() {
-        let intervalBreak = null;
-        this.setState({
-            label: 'Break',
-            endTime: Date.now() + (this.state.breakLength * 60 * 1000),
-        });
-        if (this.state.timerOn === true) {
-            intervalBreak = setInterval(() => {
-                let secondsRemaining = (this.state.endTime - Date.now()) / 1000;
-                let minutesRemaining = secondsRemaining / 60;
-                let result = (minutesRemaining).toFixed(2);
-                let timerMinutes = result.replace(/(?<=\.)\d+/, '').replace('.', '');
-                let timerSeconds = Math.round((Number(result.match(/(?<=\.)\d+/)[0])) * (60 / 100));
-                this.setState({
-                    timerDisplay: `${timerMinutes}:${timerSeconds}`,
-                    timeLeft: Math.round(secondsRemaining),
-                });
-                if (Math.round((this.state.endTime / 1000) - (Date.now() / 1000)) === 0) {
-                    console.log('break ended starting timer')
-                    clearInterval(intervalBreak);
-                    this.startTimer();
-                }
-            }, 1000)
-        }
-    }
-
-    componentDidMount() {
-        this.setState({ endTime: Math.round((this.state.sessionLength + Date.now()) / 1000) })
-        document.getElementById('time-left').innerHTML = `${this.state.sessionLength}:00`;
-    }
-
-    componentDidUpdate() {
-        if (this.state.timerOn === true) {
-            document.getElementById('time-left').innerHTML = `${this.state.sessionLength}:00`;
+        else {
+            this.setState({
+                timerOn: false,
+                intervalSession: clearInterval(this.state.intervalSession)
+            })
         }
     }
 
@@ -220,7 +163,7 @@ class Main extends React.Component {
         return (
             <div id="clock-container">
                 <h2 className="text-center mb-4">Pomodoro Clock</h2>
-                <Display minutes={this.state.timerDisplay} label={this.state.label} />
+                <Display minutes={this.state.timerOn ? this.state.timeLeft : `${this.state.sessionLength}:00`} label={this.state.label} />
                 <div className="container">
                     <div className="row">
                         <div className="col">
@@ -231,7 +174,7 @@ class Main extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Controls toggle={this.handleToggle} reset={this.handleReset} />
+                <Controls reset={this.handleReset} toggle={this.handleToggle} />
             </div>
         )
     }
