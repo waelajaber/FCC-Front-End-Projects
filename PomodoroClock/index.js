@@ -135,10 +135,12 @@ class Main extends React.Component {
             startStopCounter: this.state.startStopCounter + 1,
         })
         if (this.state.startStopCounter % 2 === 0) {
-            console.log('toggle-if')
+            console.log('toggle-if');
+            this.handleStart();
         }
         else {
-            console.log('toggle-else')
+            console.log('toggle-else');
+            this.handlePause();
         }
     }
 
@@ -149,7 +151,6 @@ class Main extends React.Component {
 
     handlePause() {
         console.log('handlePause');
-
     }
 
     handleReset() {
@@ -163,7 +164,7 @@ class Main extends React.Component {
             sessionInterval: clearInterval(this.state.intervalSession),
         })
     }
-    //.match(/(?<=00:)\d+:\d+/g).join(''),
+
     render() {
 
         return (
@@ -187,4 +188,5 @@ class Main extends React.Component {
 }
 ReactDOM.render(<Main />, document.getElementById('app-container'));
 
-//.match(RegExp(/(?<=00:)\d+:\d+/g)).join(''),
+
+//.match(/(?<=00:)\d+:\d+/g).join(''),
