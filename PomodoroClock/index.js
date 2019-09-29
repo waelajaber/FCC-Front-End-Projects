@@ -99,12 +99,13 @@ class Main extends React.Component {
             label: 'Session',
             timerOn: false,
             startStopCounter: 0,
-            intervalId: null,
         };
         this.handleBreakChange = this.handleBreakChange.bind(this);
         this.handleSessionChange = this.handleSessionChange.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
+        this.handleStart = this.handleStart.bind(this);
+
     }
     handleBreakChange(amount) {
         if (!this.state.timerOn) {
@@ -122,14 +123,15 @@ class Main extends React.Component {
     componentDidMount() {
         this.setState({
             timeLeft: `${this.state.sessionLength}:00`,
+            timer: new Timer(),
         });
     }
-    timer(minutesLeft, secondsLeft) {
-        console.log('timer running')
-        let timeNow = Date.now() / (1000 * 60);
-        let endTime = timeNow + minutesLeft + (secondsLeft / 60)
-        // console.log(endTime)
-        return endTime - timeNow;
+    componentDidUpdate() {
+        this.state.timer.addEventListener('secondsUpdated', (e) => {
+            this.setState({
+                timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
+            });
+        });
     }
     handleToggle() {
         console.log('handleToggle')
@@ -137,40 +139,41 @@ class Main extends React.Component {
             startStopCounter: this.state.startStopCounter + 1,
         })
         if (this.state.startStopCounter % 2 === 0) {
-            console.log('toggle-if');
+            console.log('toggle-if')
             this.handleStart();
         }
         else {
-            console.log('toggle-else');
+            console.log('toggle-else')
             this.handlePause();
         }
     }
     handleStart() {
-        console.log('handleStart');
-        this.setState({ timerOn: true })
-        this.state.intervalId = setInterval(() => {
+        console.log('handleStart')
+        this.state.timer.start({ countdown: true, startValues: { minutes: this.state.sessionLength, seconds: 0 } });
+        this.state.timer.addEventListener('started', (e) => {
             this.setState({
-                timeLeft: this.timer(this.state.sessionLength, 0),
+                timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
             });
-        }, 1000)
-    }
-    handlePause() {
-        console.log('handlePause');
-        this.setState({
-            timerOn: false,
-            intervalId: clearInterval(this.state.intervalId)
         });
     }
+    handlePause() {
+        console.log('handlePause')
+        this.state.timer.pause();
+    }
     handleReset() {
-        console.log('handleReset');
         this.setState({
             sessionLength: 25,
             breakLength: 5,
-            timeLeft: `${this.state.sessionLength}:00`,
+            timeLeft: null,
             label: 'Session',
             timerOn: false,
             startStopCounter: 0,
-            intervalId: null,
+            sessionInterval: clearInterval(this.state.intervalSession),
+        })
+        this.state.timer.addEventListener('reset', (e) => {
+            this.setState({
+                timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
+            });
         });
     }
     //                 timeLeft: timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
