@@ -95,6 +95,8 @@ class Main extends React.Component {
         this.state = {
             sessionLength: 25,
             breakLength: 5,
+            // minutesLeft: null,
+            // secondsLeft: null,
             timeLeft: null,
             label: 'Session',
             timerOn: false,
@@ -104,12 +106,13 @@ class Main extends React.Component {
         this.handleSessionChange = this.handleSessionChange.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
-        this.handleStart = this.handleStart.bind(this);
     }
 
     componentDidMount() {
         this.setState({
             timeLeft: `${this.state.sessionLength}:00`,
+            // minutesLeft: this.state.sessionLength,
+            // secondsLeft: this.state.secondsLeft,
             timer: new Timer(),
         });
     }
@@ -146,11 +149,43 @@ class Main extends React.Component {
 
     handleStart() {
         console.log('handleStart');
-        this.setState({ timerOn: true });
+        this.state.timer.start({
+            countdown: true,
+            startValues: {
+                minutes: this.state.sessionLength,
+            }
+        });
+        this.setState({
+            timerOn: this.state.timer.isRunning(),
+            timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
+        });
+        this.state.timer.addEventListener('secondsUpdated', () => this.setState({
+            timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join('')
+        }));
+        this.state.timer.addEventListener('targetAchieved', () => {
+            this.setState({
+                label: 'Break',
+            });
+            this.state.timer.start({
+                countdown: true,
+                startValues: {
+                    minutes: this.state.breakLength,
+                }
+            });
+        });
+        this.state.timer.addEventListener('started', () => {
+            this.setState({
+                sessionLength: this.state.sessionLength,
+            });
+        });
     }
 
     handlePause() {
         console.log('handlePause');
+        this.setState({ timerOn: false });
+        // this.state.timer.pause();
+        this.state.timer.stop();
+        this.state.timer.addEventListener('reset', () => console.log('reset happened'))
     }
 
     handleReset() {
@@ -161,12 +196,17 @@ class Main extends React.Component {
             label: 'Session',
             timerOn: false,
             startStopCounter: 0,
-            sessionInterval: clearInterval(this.state.intervalSession),
         })
+        this.state.timer.stop();
+    }
+
+    static monitor() {
+        this.state.timer.addEventListener('started', () => this.setState({ timeLeft: this.state.timer.getTimeValues().toString() }))
+        this.state.timer.addEventListener('targetAchieved', () => this.setState({ timeLeft: this.state.timer.getTimeValues().toString() }))
+        console.log(this.state.timer.getTimeValues().toString())
     }
 
     render() {
-
         return (
             <div id="clock-container" >
                 <h2 className="text-center mb-4">Pomodoro Clock</h2>
