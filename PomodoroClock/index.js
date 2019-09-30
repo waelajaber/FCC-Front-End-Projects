@@ -95,8 +95,6 @@ class Main extends React.Component {
         this.state = {
             sessionLength: 25,
             breakLength: 5,
-            // minutesLeft: null,
-            // secondsLeft: null,
             timeLeft: null,
             label: 'Session',
             timerOn: false,
@@ -128,7 +126,7 @@ class Main extends React.Component {
         if (!this.state.timerOn) {
             this.setState({
                 sessionLength: this.state.sessionLength + amount,
-                timeLeft: `${this.state.sessionLength + amount}:00`
+                timeLeft: this.state.sessionLength < 10 ? `0${this.state.sessionLength + amount}:00` : `${this.state.sessionLength + amount}:00`
             })
         }
         // if the counter was initially started , then paused and during the pause 
@@ -160,6 +158,12 @@ class Main extends React.Component {
 
     handleSession() {
         console.log('handleSession');
+        if (this.state.timer === undefined) {
+            this.setState({
+                timer: new Timer(),
+            });
+        }
+
         // Reset the countdown timer , if the sessionLength was changed during pause.
         if (this.state.sessionLengthChanged) {
             console.log('handleSession-after-sessionLength-change-during-pause')
@@ -176,7 +180,8 @@ class Main extends React.Component {
         });
         // set state of timerOn to true and display the timer reading
         this.setState({
-            timerOn: this.state.timer.isRunning(),
+            label: 'Session',
+            timerOn: true,
             timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
         });
         // update countdown timer reading 
@@ -185,37 +190,56 @@ class Main extends React.Component {
         }));
         // when the session time is over instantiate the break session
         this.state.timer.addEventListener('targetAchieved', () => {
+            this.setState({
+                timerOn: false,
+                timer: this.state.timer.stop(),
+            });
             this.handleBreak();
         });
     }
 
     handleBreak() {
         console.log('handleBreak');
+
+        this.setState({
+            label: 'Break',
+            timer: new Timer(),
+        });
+
+        // Reset the countdown timer , if the breakLength was changed during pause.
         if (this.state.breakLengthChanged) {
             console.log('handleBreak-after-breakLength-change-during-pause')
             // reset the breakLengthChanged to false, so if it is changed again it'll be caught
             this.setState({ breakLengthChanged: false });
             this.state.timer.stop();
         }
-        this.setState({
-            label: 'Break',
-        });
-        this.state.timer.stop();
+
         this.state.timer.start({
             countdown: true,
             startValues: {
                 minutes: this.state.breakLength,
             }
         });
+
         this.setState({
             timerOn: this.state.timer.isRunning(),
             timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
         });
+
+        // update countdown timer reading 
+        this.state.timer.addEventListener('secondsUpdated', () => this.setState({
+            timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
+        }));
+
+        // when the break time is over instantiate the session
         this.state.timer.addEventListener('targetAchieved', () => {
+            this.setState({
+                timerOn: false,
+                timer: this.state.timer.stop(),
+            });
             this.handleSession();
         });
     }
-
 
     handlePause() {
         console.log('handlePause');
@@ -224,6 +248,7 @@ class Main extends React.Component {
     }
 
     handleReset() {
+        console.log('handleReset')
         this.state.timer.stop();
         this.setState({
             timeLeft: `25:00`,
@@ -233,12 +258,6 @@ class Main extends React.Component {
             timerOn: false,
             startStopCounter: 0,
         });
-    }
-
-    static monitor() {
-        this.state.timer.addEventListener('started', () => this.setState({ timeLeft: this.state.timer.getTimeValues().toString() }))
-        this.state.timer.addEventListener('targetAchieved', () => this.setState({ timeLeft: this.state.timer.getTimeValues().toString() }))
-        console.log(this.state.timer.getTimeValues().toString())
     }
 
     render() {
@@ -262,6 +281,4 @@ class Main extends React.Component {
     }
 }
 ReactDOM.render(<Main />, document.getElementById('app-container'));
-
-
 //.match(/(?<=00:)\d+:\d+/g).join(''),
