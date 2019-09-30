@@ -109,6 +109,8 @@ class Main extends React.Component {
     componentDidMount() {
         this.setState({
             timeLeft: `${this.state.sessionLength}:00`,
+            // Initiating a timer so that when handleSession() is called
+            // the timer.start() call will go through.
             timer: new Timer(),
         });
     }
@@ -158,6 +160,9 @@ class Main extends React.Component {
 
     handleSession() {
         console.log('handleSession');
+
+        // Re-initiate timer object in state after returning to a session
+        // from a break
         if (this.state.timer === undefined) {
             this.setState({
                 timer: new Timer(),
@@ -201,6 +206,8 @@ class Main extends React.Component {
     handleBreak() {
         console.log('handleBreak');
 
+        // Initiate and Re-initiate a Timer every time 
+        // handleSession finishes 
         this.setState({
             label: 'Break',
             timer: new Timer(),
