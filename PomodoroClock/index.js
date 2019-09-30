@@ -111,8 +111,6 @@ class Main extends React.Component {
     componentDidMount() {
         this.setState({
             timeLeft: `${this.state.sessionLength}:00`,
-            // minutesLeft: this.state.sessionLength,
-            // secondsLeft: this.state.secondsLeft,
             timer: new Timer(),
         });
     }
@@ -120,6 +118,9 @@ class Main extends React.Component {
     handleBreakChange(amount) {
         if (!this.state.timerOn) {
             this.setState({ breakLength: this.state.breakLength + amount })
+        }
+        if (this.state.startStopCounter > 1) {
+            this.setState({ breakLengthChanged: true })
         }
     }
 
@@ -130,74 +131,108 @@ class Main extends React.Component {
                 timeLeft: `${this.state.sessionLength + amount}:00`
             })
         }
+        // if the counter was initially started , then paused and during the pause 
+        // the sessionLength was changed, set sessionLengthChanged to true.
+        // this state is used to identify if the timer needs to be reset or resumed after a pause.
+        // this state is used in the handleSession() method.
+        if (this.state.startStopCounter > 1) {
+            this.setState({ sessionLengthChanged: true })
+        }
     }
 
     handleToggle() {
         console.log('handleToggle')
+        // increase the counter every time the start-stop button is pushed
         this.setState({
             startStopCounter: this.state.startStopCounter + 1,
         })
+        // start the countdown timer is the startStopCounter is odd
         if (this.state.startStopCounter % 2 === 0) {
             console.log('toggle-if');
-            this.handleStart();
+            this.handleSession();
         }
+        // pause the countdown timer is the startStopCounter is even
         else {
             console.log('toggle-else');
             this.handlePause();
         }
     }
 
-    handleStart() {
-        console.log('handleStart');
+    handleSession() {
+        console.log('handleSession');
+        // Reset the countdown timer , if the sessionLength was changed during pause.
+        if (this.state.sessionLengthChanged) {
+            console.log('handleSession-after-sessionLength-change-during-pause')
+            // reset the sessionLengthChanged to false, so if it is changed again it'll be caught
+            this.setState({ sessionLengthChanged: false })
+            this.state.timer.stop();
+        }
+        // Start the timer plugin
         this.state.timer.start({
             countdown: true,
             startValues: {
                 minutes: this.state.sessionLength,
             }
         });
+        // set state of timerOn to true and display the timer reading
         this.setState({
             timerOn: this.state.timer.isRunning(),
             timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
         });
+        // update countdown timer reading 
         this.state.timer.addEventListener('secondsUpdated', () => this.setState({
-            timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join('')
+            timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
         }));
+        // when the session time is over instantiate the break session
         this.state.timer.addEventListener('targetAchieved', () => {
-            this.setState({
-                label: 'Break',
-            });
-            this.state.timer.start({
-                countdown: true,
-                startValues: {
-                    minutes: this.state.breakLength,
-                }
-            });
-        });
-        this.state.timer.addEventListener('started', () => {
-            this.setState({
-                sessionLength: this.state.sessionLength,
-            });
+            this.handleBreak();
         });
     }
+
+    handleBreak() {
+        console.log('handleBreak');
+        if (this.state.breakLengthChanged) {
+            console.log('handleBreak-after-breakLength-change-during-pause')
+            // reset the breakLengthChanged to false, so if it is changed again it'll be caught
+            this.setState({ breakLengthChanged: false });
+            this.state.timer.stop();
+        }
+        this.setState({
+            label: 'Break',
+        });
+        this.state.timer.stop();
+        this.state.timer.start({
+            countdown: true,
+            startValues: {
+                minutes: this.state.breakLength,
+            }
+        });
+        this.setState({
+            timerOn: this.state.timer.isRunning(),
+            timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
+        });
+        this.state.timer.addEventListener('targetAchieved', () => {
+            this.handleSession();
+        });
+    }
+
 
     handlePause() {
         console.log('handlePause');
         this.setState({ timerOn: false });
-        // this.state.timer.pause();
-        this.state.timer.stop();
-        this.state.timer.addEventListener('reset', () => console.log('reset happened'))
+        this.state.timer.pause();
     }
 
     handleReset() {
+        this.state.timer.stop();
         this.setState({
+            timeLeft: `25:00`,
             sessionLength: 25,
             breakLength: 5,
-            timeLeft: null,
             label: 'Session',
             timerOn: false,
             startStopCounter: 0,
-        })
-        this.state.timer.stop();
+        });
     }
 
     static monitor() {
