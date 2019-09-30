@@ -195,11 +195,17 @@ class Main extends React.Component {
         }));
         // when the session time is over instantiate the break session
         this.state.timer.addEventListener('targetAchieved', () => {
-            this.setState({
-                timerOn: false,
-                timer: this.state.timer.stop(),
-            });
-            this.handleBreak();
+            this.setState({ label: 'Break' })
+            // setting a timeout so that the timer plugin has time to show 00:00
+            setTimeout(() => {
+                this.setState({
+                    timerOn: false,
+                    timer: this.state.timer.stop(),
+                    // label: 'Break'
+                });
+                this.handleBreak();
+            }
+                , 500)
         });
     }
 
@@ -209,7 +215,7 @@ class Main extends React.Component {
         // Initiate and Re-initiate a Timer every time 
         // handleSession finishes 
         this.setState({
-            label: 'Break',
+            // label: 'Break',
             timer: new Timer(),
         });
 
@@ -240,11 +246,16 @@ class Main extends React.Component {
 
         // when the break time is over instantiate the session
         this.state.timer.addEventListener('targetAchieved', () => {
-            this.setState({
-                timerOn: false,
-                timer: this.state.timer.stop(),
-            });
-            this.handleSession();
+            this.setState({ label: 'Session' })
+            // setting a timeout so that the timer plugin has time to show 00:00
+            setTimeout(() => {
+                this.setState({
+                    timerOn: false,
+                    timer: this.state.timer.stop(),
+                    // label: 'Session'
+                });
+                this.handleSession();
+            }, 500);
         });
     }
 
@@ -288,4 +299,3 @@ class Main extends React.Component {
     }
 }
 ReactDOM.render(<Main />, document.getElementById('app-container'));
-//.match(/(?<=00:)\d+:\d+/g).join(''),
