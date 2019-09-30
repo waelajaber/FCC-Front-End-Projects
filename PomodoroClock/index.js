@@ -165,6 +165,7 @@ class Main extends React.Component {
         // from a break
         if (this.state.timer === undefined) {
             this.setState({
+                label: 'Session',
                 timer: new Timer(),
             });
         }
@@ -195,7 +196,8 @@ class Main extends React.Component {
         }));
         // when the session time is over instantiate the break session
         this.state.timer.addEventListener('targetAchieved', () => {
-            this.setState({ label: 'Break' })
+            // this.setState({ label: 'Break' });
+            this.audioBeep.play();
             // setting a timeout so that the timer plugin has time to show 00:00
             setTimeout(() => {
                 this.setState({
@@ -204,8 +206,7 @@ class Main extends React.Component {
                     // label: 'Break'
                 });
                 this.handleBreak();
-            }
-                , 500)
+            }, 100)
         });
     }
 
@@ -215,7 +216,7 @@ class Main extends React.Component {
         // Initiate and Re-initiate a Timer every time 
         // handleSession finishes 
         this.setState({
-            // label: 'Break',
+            label: 'Break',
             timer: new Timer(),
         });
 
@@ -246,7 +247,8 @@ class Main extends React.Component {
 
         // when the break time is over instantiate the session
         this.state.timer.addEventListener('targetAchieved', () => {
-            this.setState({ label: 'Session' })
+            // this.setState({ label: 'Session' })
+            this.audioBeep.play();
             // setting a timeout so that the timer plugin has time to show 00:00
             setTimeout(() => {
                 this.setState({
@@ -255,7 +257,7 @@ class Main extends React.Component {
                     // label: 'Session'
                 });
                 this.handleSession();
-            }, 500);
+            }, 100);
         });
     }
 
@@ -276,6 +278,8 @@ class Main extends React.Component {
             timerOn: false,
             startStopCounter: 0,
         });
+        this.audioBeep.pause();
+        this.audioBeep.currentTime = 0;
     }
 
     render() {
@@ -294,8 +298,10 @@ class Main extends React.Component {
                     </div>
                 </div>
                 <Controls reset={this.handleReset} toggle={this.handleToggle} />
+                <audio id="beep" preload="auto" src="https://goo.gl/65cBl1" ref={(audio) => { this.audioBeep = audio; }} />
             </div>
         )
     }
 }
 ReactDOM.render(<Main />, document.getElementById('app-container'));
+//
