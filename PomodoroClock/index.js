@@ -19,21 +19,21 @@ class Break extends React.Component {
     }
     render() {
         return (
-            <div id="break-container" className="container mb-5">
+            <div id="break-container" className="container mb-3">
                 <div className="row justify-content-center">
-                    <div id="break-label" className="text-success text-center">Break Length</div>
+                    <div id="break-label" className="text-center">Break Length</div>
                 </div>
                 <div className="row justify-content-center my-2">
-                    <div id="break-length" className="text-danger">{this.props.value}</div>
+                    <div id="break-length">{this.props.value}</div>
                 </div>
                 <div className="row justify-content-center">
                     <div className="col text-center">
-                        <button id="break-decrement" className="btn btn-sm btn-primary" onClick={this.breakDecrement.bind(this)}>
+                        <button id="break-decrement" className="" onClick={this.breakDecrement.bind(this)}>
                             <i className="fa fa-arrow-down"></i>
                         </button>
                     </div>
                     <div className="col text-center">
-                        <button id="break-increment" className="btn btn-sm btn-primary" onClick={this.breakIncrement.bind(this)}>
+                        <button id="break-increment" className="" onClick={this.breakIncrement.bind(this)}>
                             <i className="fa fa-arrow-up"></i>
                         </button>
                     </div>
@@ -51,21 +51,21 @@ class Session extends React.Component {
     }
     render() {
         return (
-            <div id="session-container" className="container mb-5">
+            <div id="session-container" className="container mb-3">
                 <div className="row justify-content-center">
-                    <div id="session-label" className="text-success text-center">Session Length</div>
+                    <div id="session-label" className="text-center">Session Length</div>
                 </div>
                 <div className="row justify-content-center my-2">
-                    <div id="session-length" className="text-danger">{this.props.value}</div>
+                    <div id="session-length">{this.props.value}</div>
                 </div>
                 <div className="row justify-content-center">
                     <div className="col text-center">
-                        <button id="session-decrement" className="btn btn-sm btn-primary" onClick={this.sessionDecrement.bind(this)}>
+                        <button id="session-decrement" className="" onClick={this.sessionDecrement.bind(this)}>
                             <i className="fa fa-arrow-down"></i>
                         </button>
                     </div>
                     <div className="col text-center">
-                        <button id="session-increment" className="btn btn-sm btn-primary" onClick={this.sessionIncrement.bind(this)}>
+                        <button id="session-increment" className="" onClick={this.sessionIncrement.bind(this)}>
                             <i className="fa fa-arrow-up"></i>
                         </button>
                     </div>
@@ -78,11 +78,11 @@ class Controls extends React.Component {
     render() {
         return (
             <div id="controls-container" className="justify-content-center text-center">
-                <button id="start_stop" className="btn btn-sm btn-primary p-2 m-1" onClick={this.props.toggle}>
+                <button id="start_stop" className=" p-2 mx-1" onClick={this.props.toggle}>
                     <i className="fa fa-play mx-2"></i>
                     <i className="fa fa-pause mx-2"></i>
                 </button>
-                <button id="reset" className="btn btn-sm btn-primary p-2 m-1" onClick={this.props.reset}>
+                <button id="reset" className=" p-2 mx-1" onClick={this.props.reset}>
                     <i className="fa fa-refresh"></i>
                 </button>
             </div>
@@ -160,7 +160,6 @@ class Main extends React.Component {
 
     handleSession() {
         console.log('handleSession');
-
         // Re-initiate timer object in state after returning to a session
         // from a break
         if (this.state.timer === undefined) {
@@ -168,8 +167,7 @@ class Main extends React.Component {
                 label: 'Session',
                 timer: new Timer(),
             });
-        }
-
+        };
         // Reset the countdown timer , if the sessionLength was changed during pause.
         if (this.state.sessionLengthChanged) {
             console.log('handleSession-after-sessionLength-change-during-pause')
@@ -186,7 +184,6 @@ class Main extends React.Component {
         });
         // set state of timerOn to true and display the timer reading
         this.setState({
-            label: 'Session',
             timerOn: true,
             timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
         });
@@ -195,31 +192,27 @@ class Main extends React.Component {
             timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
         }));
         // when the session time is over instantiate the break session
+
         this.state.timer.addEventListener('targetAchieved', () => {
-            // this.setState({ label: 'Break' });
             this.audioBeep.play();
             // setting a timeout so that the timer plugin has time to show 00:00
             setTimeout(() => {
                 this.setState({
-                    timerOn: false,
                     timer: this.state.timer.stop(),
-                    // label: 'Break'
                 });
                 this.handleBreak();
-            }, 100)
+            }, 10000)
         });
     }
 
     handleBreak() {
         console.log('handleBreak');
-
         // Initiate and Re-initiate a Timer every time 
         // handleSession finishes 
         this.setState({
             label: 'Break',
             timer: new Timer(),
         });
-
         // Reset the countdown timer , if the breakLength was changed during pause.
         if (this.state.breakLengthChanged) {
             console.log('handleBreak-after-breakLength-change-during-pause')
@@ -227,19 +220,16 @@ class Main extends React.Component {
             this.setState({ breakLengthChanged: false });
             this.state.timer.stop();
         }
-
         this.state.timer.start({
             countdown: true,
             startValues: {
                 minutes: this.state.breakLength,
             }
         });
-
         this.setState({
             timerOn: this.state.timer.isRunning(),
             timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
         });
-
         // update countdown timer reading 
         this.state.timer.addEventListener('secondsUpdated', () => this.setState({
             timeLeft: this.state.timer.getTimeValues().toString().match(/(?<=00:)\d+:\d+/g).join(''),
@@ -247,17 +237,14 @@ class Main extends React.Component {
 
         // when the break time is over instantiate the session
         this.state.timer.addEventListener('targetAchieved', () => {
-            // this.setState({ label: 'Session' })
             this.audioBeep.play();
             // setting a timeout so that the timer plugin has time to show 00:00
             setTimeout(() => {
                 this.setState({
-                    timerOn: false,
                     timer: this.state.timer.stop(),
-                    // label: 'Session'
                 });
                 this.handleSession();
-            }, 100);
+            }, 10000);
         });
     }
 
@@ -285,7 +272,7 @@ class Main extends React.Component {
     render() {
         return (
             <div id="clock-container" >
-                <h2 className="text-center mb-4">Pomodoro Clock</h2>
+                <h2 className="text-center mb-3">Pomodoro Clock</h2>
                 <Display minutes={this.state.timeLeft} label={this.state.label} />
                 <div className="container">
                     <div className="row">

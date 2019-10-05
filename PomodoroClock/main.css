@@ -1,21 +1,71 @@
-/* @font-face {
-  src: url("");
-  font-family: "customFont";
-} */
+@font-face {
+  src: url("./fonts/LEDCalculator.ttf");
+  font-family: "calculator5";
+}
+
+:root {
+  --color_1: rgba(32, 42, 49, 0.891);
+  --color_2: #ffffff2a;
+  --color_3: #ffffff76;
+  --color_4: #2ac682f1;
+  --color_shadow: rgba(2, 2, 2, 0.387);
+}
+
+body {
+  background-color: var(--color_1);
+}
 
 #app-container {
   position: fixed;
   top: 50%;
   left: 50%;
-  /* -webkit-transform: translate(-50%, -50%); */
+  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
 #clock-container {
+  background-color: var(--color_2);
   min-width: 350px;
   min-height: 200px;
-  /* background-color: rgb(173, 173, 173); */
   padding: 15px;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.245) 1px 1px 20px 1px;
+  box-shadow: var(--color_shadow) 1px 1px 20px 1px;
+}
+
+button {
+  background-color: var(--color_1);
+  color: #ffffff2a;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  box-shadow: inset var(--color_shadow) 1px 1px 10px 1px;
+}
+
+h2 {
+  color: var(--color_1);
+}
+
+#timer-label {
+  color: var(--color_3);
+}
+
+#time-left {
+  color: var(--color_4);
+  text-shadow: 0px 0px 10px#ffffff00;
+  font-family: calculator5;
+  text-shadow: 1px 1px 10px #2ac682f1;
+  font-size: 30px;
+}
+
+#break-label,
+#session-label {
+  color: var(--color_3);
+}
+
+#break-length,
+#session-length {
+  color: var(--color_4);
+  font-weight: bolder;
+  font-size: 20px;
+  font-family: calculator5;
 }
